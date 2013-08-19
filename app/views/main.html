@@ -1,0 +1,53 @@
+<div class="home">
+  <div class="express-yourself"></div>
+  <div class="sign">
+    <div class="signin">
+      <div class="facebook">
+        <!-- <a href="#" ng-click="signInFacebook()">Facebook으로 로그인</a> -->
+      </div>
+      <span>혹은</span>
+      <div class="dash">
+        <form ng-controller="SigninCtrl" name="signin_form" ng-submit="signInDash()">
+          <fieldset>
+            <legend>Dash 계정으로 로그인</legend>
+            <label for="email">이메일</label>
+            <input type="email" ng-model="email" id="email" required>
+            <label for="password">암호</label>
+            <input type="password" ng-model="password" id="password" required>
+            <button type="submit" class="btn">로그인</button>
+            <a href="#" ng-click="findPassword()">암호를 잊으셨나요?</a>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="signup">
+      <button type="button" class="btn btn-large btn-block" ng-click="signUp()"><i class="icon-pencil"></i>회원 가입</button>
+      <div ng-controller="SignupCtrl" modal="signUpModalOpen" close="closeModal()" options="opts">
+        <form class="signup_form" name="signup_form" ng-submit="signUp()">
+          <div class="modal-header">
+            <h3>회원 가입</h3>
+          </div>
+          <div class="modal-body">
+            <fieldset>
+              <label for="email">이메일</label>
+              <input type="email" ng-model="email" id="email" required>
+              <label for="email_check">이메일 확인</label>
+              <input type="email" ng-model="email_check" id="email_check" required>
+              <label for="password">암호</label>
+              <input type="password" ng-model="password" id="password" required>
+              <label for="major">소속 전공</label>
+              <select ui-select2 class="major" ng-model="major" data-placeholder="소속 전공을 선택하세요" ng-required="true">
+                  <option value=""></option>
+                  <option ng-repeat="m in majors" value="{{m.value}}">{{m.text}}</option>
+              </select>
+            </fieldset>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning cancel" ng-click="closeModal()">취소</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="signup_form.$invalid" ng-class="{disabled: signup_form.$invalid}">가입</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
