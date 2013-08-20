@@ -10,7 +10,7 @@
       <input type="password" ng-model="password" name="password" placeholder="암호" required>
       <select ui-select2 class="major" ng-model="major" name="major" data-placeholder="소속 전공" ng-required="true">
         <option value=""></option>
-        <option ng-repeat="m in majors" value="{{m.value}}">{{m.text}}</option>
+        <option ng-repeat="m in majors" value="{{m.code}}">{{m.name}}</option>
       </select>
     </fieldset>
   </div>
