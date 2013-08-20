@@ -46,7 +46,10 @@ describe('Controller: SignupCtrl', function () {
     };
     SignupCtrl = $controller('SignupCtrl', {
       $scope: scope,
-      UserInfo: UserInfo
+      UserInfo: UserInfo,
+      dialog: {
+        close: function () {}
+      }
     });
   }));
 

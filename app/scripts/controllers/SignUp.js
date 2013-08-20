@@ -1,3 +1,4 @@
+/* jshint -W106 */
 'use strict';
 
 angular.module('dashApp')
@@ -15,10 +16,12 @@ angular.module('dashApp')
     };
 
     $scope.signUp = function () {
+      var form = $scope.signup_form;
+
       return UserInfo.signUp({
-        email: $scope.signup_form.email,
-        password: $scope.signup_form.password,
-        major: $scope.signup_form.major
+        email: form.email,
+        password: form.password,
+        major: form.major
       });
     };
 
