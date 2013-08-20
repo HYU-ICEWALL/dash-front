@@ -1,0 +1,21 @@
+<form class="signup_form" name="signup_form" ng-submit="signUp()">
+  <div class="modal-header">
+    <h3>회원 가입</h3>
+  </div>
+  <div class="modal-body">
+    <fieldset>
+      <input type="email" ng-model="email" name="email" placeholder="이메일" required>
+      <input type="email" name="confirm_email" placeholder="이메일 확인" ng-model="confirm_email" ui-validate="'$value==email'" ui-validate-watch="'email'">
+      <span ng-show="signup_form.confirm_email.$error.validator">이메일이 일치하지 않습니다.</span>
+      <input type="password" ng-model="password" name="password" placeholder="암호" required>
+      <select ui-select2 class="major" ng-model="major" name="major" data-placeholder="소속 전공" ng-required="true">
+        <option value=""></option>
+        <option ng-repeat="m in majors" value="{{m.value}}">{{m.text}}</option>
+      </select>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-warning cancel" ng-click="closeModal()">취소</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="signup_form.$invalid" ng-class="{disabled: signup_form.$invalid}">가입</button>
+  </div>
+</form>

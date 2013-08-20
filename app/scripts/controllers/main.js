@@ -1,14 +1,21 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('MainCtrl', ['$scope', '$window', function ($scope, $window) {
-  $scope.signUpModalOpen = false;
+.controller('MainCtrl', ['$scope', '$window', '$dialog',
+  function ($scope, $window, $dialog) {
+    $scope.signUpModalOpen = false;
 
-  $scope.signInDash = function () {
-    $window.alert('sign in with dash account');
-  };
+    $scope.signInDash = function () {
+      $window.alert('sign in with dash account');
+    };
 
-  $scope.signUp = function () {
-    $scope.signUpModalOpen = true;
-  };
-}]);
+    var signUpDialog = $dialog.dialog({
+      templateUrl: 'views/userinfo_form.html',
+      controller:'SignupCtrl'
+    });
+
+    $scope.signUp = function () {
+      //$scope.signUpModalOpen = true;
+      signUpDialog.open();
+    };
+  }]);

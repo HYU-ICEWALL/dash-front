@@ -7,24 +7,30 @@ describe('Controller: SigninCtrl', function () {
 
   var SigninCtrl,
     scope,
-    UserInfo;
+    UserInfo,
+    httpBackend;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, $q, _$httpBackend_) {
     scope = $rootScope.$new();
     UserInfo = {
       signIn: function(username, password) {
+        var deferred = $q.defer();
+
         if (username == 'user' && password == '1234') {
-          return true;
+          deferred.resolve(true);
         } else {
-          return false;
+          deferred.resolve(false);
         }
+
+        return deferred.promise;
       }
     };
     SigninCtrl = $controller('SigninCtrl', {
       $scope: scope,
       UserInfo: UserInfo
     });
+    httpBackend = _$httpBackend_;
   }));
 
 /*  it('should attach a list of awesomeThings to the scope', function () {
@@ -32,6 +38,7 @@ describe('Controller: SigninCtrl', function () {
   });*/
 
   it('should sign the user in only when correct credential info was given', function() {
+    var promise, result;
     expect(SigninCtrl.signIn('user', '1234')).toBeTruthy();
     expect(SigninCtrl.signIn('user', '5678')).toBeFalsy();
     expect(SigninCtrl.signIn('resu', '1234')).toBeFalsy();
