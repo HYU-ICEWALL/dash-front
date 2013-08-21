@@ -4,6 +4,17 @@
 angular.module('dashApp')
 .controller('SignupCtrl', ['$scope', 'dialog', 'UserInfo',
   function ($scope, dialog, UserInfo) {
+    $scope.modalTitle = "회원 가입";
+    $scope.modalDoneButtonValue = "가입";
+    $scope.placeholder = {
+      curr_password: "",
+      password: "암호",
+      confirm_password: ""
+    };
+    $scope.isSignUpForm = true;
+
+    $scope.userinfo = {};
+
     $scope.majors = [
       {text: '컴퓨터공학부', value: 'H3HADD'},
       {text: '컴퓨터전공', value: 'H3HADDA'},
@@ -15,13 +26,13 @@ angular.module('dashApp')
       dialog.close();
     };
 
-    $scope.signUp = function () {
-      var form = $scope.signup_form;
+    $scope.submit = function () {
+      var userinfo = $scope.userinfo;
 
       return UserInfo.signUp({
-        email: form.email,
-        password: form.password,
-        major: form.major
+        email: userinfo.email,
+        password: userinfo.password,
+        major: userinfo.major
       });
     };
 
