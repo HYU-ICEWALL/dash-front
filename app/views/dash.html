@@ -1,0 +1,20 @@
+<nav class="navbar navbar-fixed-top" ng-controller="NavBarCtrl">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav pull-left">
+        <li ng-repeat="item in items">
+          <a ng-href="{{getURL(item.id)}}" ng-bind="item.name"></a>
+        </li>
+      </ul>
+      <ul class="nav pull-right">
+        <li class="userinfo dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">asdf<b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a tabindex="-1" href="" ng-click="updateUserinfo()">정보수정</a></li>
+            <li><a tabindex="-1" href="#">로그아웃</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -38,9 +38,21 @@ describe('Controller: SigninCtrl', function () {
   });*/
 
   it('should sign the user in only when correct credential info was given', function() {
-    var promise, result;
-    expect(SigninCtrl.signIn('user', '1234')).toBeTruthy();
-    expect(SigninCtrl.signIn('user', '5678')).toBeFalsy();
-    expect(SigninCtrl.signIn('resu', '1234')).toBeFalsy();
+    var promise;
+
+    promise = SigninCtrl.signIn('user', '1234');
+    promise.then(function (res) {
+      expect(res).toBeTruthy();
+    });
+
+    promise = SigninCtrl.signIn('user', '5678');
+    promise.then(function (res) {
+      expect(res).toBeFalsy();
+    });
+
+    promise = SigninCtrl.signIn('resu', '1234');
+    promise.then(function (res) {
+      expect(res).toBeFalsy();
+    });
   });
 });
