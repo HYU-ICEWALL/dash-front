@@ -5,6 +5,7 @@ angular.module('dashApp')
 .controller('SignupCtrl', ['$scope', 'dialog', 'UserInfo', 'MajorInfo',
   function ($scope, dialog, UserInfo, MajorInfo) {
     $scope.majors = MajorInfo.getMajorsInfo();
+    
     $scope.modalTitle = "회원 가입";
     $scope.modalDoneButtonValue = "가입";
     $scope.placeholder = {
