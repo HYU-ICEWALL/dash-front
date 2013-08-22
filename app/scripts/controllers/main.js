@@ -11,7 +11,12 @@ angular.module('dashApp')
 
     var signUpDialog = $dialog.dialog({
       templateUrl: 'views/userinfo_form.html',
-      controller:'SignupCtrl'
+      controller:'SignupCtrl',
+      resolve: {
+        majors: function (MajorInfo) {
+          return MajorInfo.getMajorsInfo();
+        }
+      }
     });
 
     $scope.signUp = function () {

@@ -1,18 +1,23 @@
 'use strict';
 
 angular.module('dashApp')
-  .controller('EditUserinfoCtrl', ['$scope', 'dialog', 'UserInfo',
-    function ($scope, dialog, UserInfo) {
-      $scope.modalTitle = "회원 정보 수정";
-      $scope.modalDoneButtonValue = "완료";
+  .controller('EditUserinfoCtrl', [
+    '$scope', '$location', 'StringResource', 'Utils',
+    'dialog', 'Account', 'majors',
+    function ($scope, $location, StringResource,
+              Utils, dialog, Account, majors) {
+      var STR = StringResource.UI.EDIT_USERINFO;
+      $scope.modalDoneButtonValue = STR.DONE_BUTTON;
       $scope.placeholder = {
-        curr_password: "현재 암호",
-        password: "새 암호",
-        confirm_password: "새 암호 확인"
+        curr_password: STR.PLACEHOLDER.CURR_PASSWORD,
+        password: STR.PLACEHOLDER.PASSWORD,
+        confirm_password: STR.PLACEHOLDER.CONFIRM_PASSWORD
       };
       $scope.isSignUpForm = false;
 
-      $scope.userinfo = $.extend({}, UserInfo.getUserInfo());
+      $scope.majors = majors;
+
+      $scope.userinfo = $.extend({}, Account.getUserInfo());
       $scope.userinfo.confirm_email = $scope.userinfo.email;
 
       /*$scope.email = $scope.confirm_email = 'email';
@@ -24,11 +29,47 @@ angular.module('dashApp')
         return false;
       };
 
-      $scope.submit = function() {
-        var promise = UserInfo.editUserInfo($scope.userinfo);
+      $scope.submit = function () {
+        var promise = Account.editUserInfo($scope.userinfo);
         return promise.then(function (res){
           dialog.close();
           return true;
         });
-      }
+      };
+
+      $scope.askingDelete = false;
+      $scope.deletePassword = '';
+      $scope.deleteErrorOccurred = false;
+      $scope.deleteError = '';
+
+      var title = {
+        edit: STR.TITLE.EDIT,
+        delete: STR.TITLE.DELETE
+      };
+
+      $scope.$watch('askingDelete', function (newVal) {
+        if (newVal == true) {
+          $scope.modalTitle = title.delete;
+        } else {
+          $scope.modalTitle = title.edit;
+        }
+      });
+
+      $scope.deleteAccount = function () {
+        Account.deleteAccount({
+          password: $scope.deletePassword
+        }).then(function () {
+          $scope.askingDelete = false;
+          dialog.close();
+          $location.path('/');
+        }, function (reason) {
+          $scope.deleteErrorOccurred = true;
+          if (reason.indexOf('invalid credential information') != -1) {
+            $scope.deleteError = STR.ERROR.INCORRECT_PASSWORD;
+          } else {
+            var code = Utils.getHttpCodeFromErrorReason(reason);
+            $scope.deleteError = Utils.reasonHttpError(code);
+          }
+        });
+      };
     }]);

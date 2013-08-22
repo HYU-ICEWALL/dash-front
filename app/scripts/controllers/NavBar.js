@@ -14,7 +14,12 @@ angular.module('dashApp')
 
       var userinfoDialog = $dialog.dialog({
         templateUrl: 'views/userinfo_form.html',
-        controller: 'EditUserinfoCtrl'
+        controller: 'EditUserinfoCtrl',
+        resolve: {
+          majors: function (MajorInfo) {
+            return MajorInfo.getMajorsInfo();
+          }
+        }
       });
 
       $scope.updateUserinfo = function () {

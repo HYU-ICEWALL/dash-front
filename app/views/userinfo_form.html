@@ -3,22 +3,33 @@
     <h3 ng-bind="modalTitle">로드 중...</h3>
   </div>
   <div class="modal-body">
-    <fieldset>
+    <fieldset ng-hide="askingDelete">
       <input type="email" ng-model="userinfo.email" name="email" placeholder="이메일" required>
-      <input type="email" name="confirm_email" placeholder="이메일 확인" ng-model="userinfo.confirm_email" ui-validate="'$value==userinfo.email'" ui-validate-watch="'email'">
+      <input type="email" name="confirm_email" placeholder="이메일 확인" ng-model="userinfo.confirm_email" ui-validate="'$value==userinfo.email'" ui-validate-watch="'userinfo.email'">
       <span ng-show="userinfo_form.confirm_email.$error.validator">이메일이 일치하지 않습니다.</span>
       <input type="password" ng-model="userinfo.curr_password" name="curr_password" placeholder="{{placeholder.curr_password}}" ng-hide="isSignUpForm" ng-required="!isSignUpForm">
-      <input type="password" ng-model="userinfo.password" name="password" placeholder="{{placeholder.password}}" required>
-      <input type="password" ng-model="userinfo.confirm_password" name="confirm_password" placeholder="{{placeholder.confirm_password}}" ng-hide="isSignUpForm" ng-required="!isSignUpForm" ui-validate="'isSignUpForm || $value==userinfo.password'" ui-validate-watch="'password'">
+      <input type="password" ng-model="userinfo.password" name="password" placeholder="{{placeholder.password}}" ng-required="isSignUpForm">
+      <input type="password" ng-model="userinfo.confirm_password" name="confirm_password" placeholder="{{placeholder.confirm_password}}" ng-hide="isSignUpForm" ui-validate="'isSignUpForm || $value==userinfo.password || (!$value && !userinfo.password)'" ui-validate-watch="'userinfo.password'">
       <span ng-show="userinfo_form.confirm_password.$error.validator">암호가 일치하지 않습니다.</span>
       <select ui-select2 class="major" ng-model="userinfo.major" name="major" data-placeholder="소속 전공" ng-required="true">
         <option value=""></option>
         <option ng-repeat="m in majors" value="{{m.code}}">{{m.name}}</option>
       </select>
     </fieldset>
+    <fieldset ng-show="askingDelete">
+        <p>정말로 계정을 삭제하시겠습니까? 보관중인 시간표가 모두 삭제되며, 복구가 불가능합니다.</p>
+        <input type="password" ng-model="deletePassword" placeholder="암호 입력" ng-required="!isSignUpForm && askingDelete">
+        <span ng-show="deleteErrorOccurred" ng-bind="deleteError"></span>
+    </fieldset>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-warning cancel" ng-click="closeModal()">취소</button>
-    <button type="submit" class="btn btn-primary" ng-disabled="userinfo_form.$invalid" ng-class="{disabled: userinfo_form.$invalid}" ng-bind="modalDoneButtonValue"></button>
+    <div ng-hide="isSignUpForm" class="pull-left">
+      <button type="button" class="btn btn-link" ng-click="askingDelete = true" ng-hide="askingDelete">계정 삭제</button>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-warning cancel" ng-click="closeModal()">취소</button>
+      <button type="submit" class="btn btn-primary" ng-disabled="userinfo_form.$invalid" ng-class="{disabled: userinfo_form.$invalid}" ng-bind="modalDoneButtonValue" ng-hide="askingDelete"></button>
+      <button type="button" class="btn btn-danger" ng-show="!isSignUpForm && askingDelete" ng-click="deleteAccount()" ng-disabled="!deletePassword" ng-class="{disabled: !deletePassword}">삭제</button>
+    </div>
   </div>
 </form>
