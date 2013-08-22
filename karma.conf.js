@@ -13,6 +13,7 @@ files = [
   'app/bower_components/jquery/jquery.js',
   'app/bower_components/angular-ui-select2/src/select2.js',
   'app/bower_components/select2/select2.js',
+  'app/bower_components/angular-ui-router/release/angular-ui-router.min.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',

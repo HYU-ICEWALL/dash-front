@@ -62,4 +62,34 @@ describe('Service: UserInfo', function () {
     expect(UserInfo.getUserInfo()).toBeNull();
   });
 
+  it('should return the new user information if valid form data is passed', function () {
+    httpBackend.expectPOST('/member', {
+      email: 'somebody@example.com',
+      password: '1234',
+      major: 'H3HADD'
+    })
+    .respond(200, {"id": 1});
+
+    var result;
+    var promise = UserInfo.signUp({
+      email: 'somebody@example.com',
+      password: '1234',
+      major: 'H3HADD'
+    });
+
+    expect(UserInfo.getUserInfo()).toBeNull();
+
+    promise.then(function (res) {
+      result = res;
+    });
+
+    httpBackend.expectGET('/member/1')
+      .respond(200, {"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+
+    httpBackend.flush();
+
+    expect(result).toBeTruthy();
+    expect(UserInfo.getUserInfo()).toEqualData({"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+  })
+
 });

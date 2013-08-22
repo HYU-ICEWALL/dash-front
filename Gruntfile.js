@@ -106,7 +106,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      ngdoc: 'docs/*'
     },
     jshint: {
       options: {
@@ -313,6 +314,27 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+    docular: {
+      groups: [
+        {
+          groupTitle: 'Internal API',
+          groupId: 'internal',
+          groupIcon: 'icon-beer',
+          sections: [
+            {
+              id: "userinfo",
+              title: "User Information",
+              showSource: false,
+              scripts: [
+                "<%= yeoman.app %>/scripts"
+              ]
+            }
+          ]
+        }
+      ],
+      showDocularDocs: false,
+      showAngularDocs: false
     }
   });
 
@@ -356,4 +378,9 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  /*grunt.registerTask('ngdoc', [
+    'clean:ngdoc',
+    'ngdoc:internal'
+  ]);*/
 };

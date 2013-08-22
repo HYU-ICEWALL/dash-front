@@ -46,17 +46,20 @@ describe('Controller: SignupCtrl', function () {
     };
     SignupCtrl = $controller('SignupCtrl', {
       $scope: scope,
-      UserInfo: UserInfo
+      UserInfo: UserInfo,
+      dialog: {
+        close: function () {}
+      }
     });
   }));
 
   it('should sign up successfully with valid information and acquire user information', function () {
-    scope.signup_form = {};
-    scope.signup_form.email = 'somebody@example.com';
-    scope.signup_form.password = '1234';
-    scope.signup_form.major = 'H3HADD';
+    scope.userinfo_form = {};
+    scope.userinfo_form.email = 'somebody@example.com';
+    scope.userinfo_form.password = '1234';
+    scope.userinfo_form.major = 'H3HADD';
 
-    var promise = scope.signUp();
+    var promise = scope.submit();
 
     promise.then(function (res) {
       expect(res).toBeTruthy();
@@ -65,12 +68,12 @@ describe('Controller: SignupCtrl', function () {
   });
 
   it('should fail signing up with invalid information', function () {
-    scope.signup_form = {};
-    scope.signup_form.email = 'somebody@example.';
-    scope.signup_form.password = '1234';
-    scope.signup_form.major = 'H3HADD';
+    scope.userinfo_form = {};
+    scope.userinfo_form.email = 'somebody@example.';
+    scope.userinfo_form.password = '1234';
+    scope.userinfo_form.major = 'H3HADD';
 
-    var promise = scope.signUp();
+    var promise = scope.submit();
 
     promise.then(function (res) {
       expect(res).toBeFalsy();
