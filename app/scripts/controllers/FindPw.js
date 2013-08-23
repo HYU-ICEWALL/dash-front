@@ -19,5 +19,4 @@ angular.module('dashApp')
     dialogFade:true
   };
 
-
 }]);
