@@ -15,7 +15,29 @@
             <label for="password">암호</label>
             <input type="password" ng-model="password" id="password" required>
             <button type="submit" class="btn">로그인</button>
-            <a href="#" ng-click="findPassword()">암호를 잊으셨나요?</a>
+
+            <div ng-controller="FindpwCtrl">
+              <a href="#" ng-click="findPassword()">암호를 잊으셨나요?</a>
+              <div modal="shouldBeOpen" close="closeModal()" options="opts">
+                <form class="findpw_form" name="findpw_form" ng-submit="findPassword()">
+                  <div class="modal-header">
+                    <button type="button" class="close" ng-click="closeModal()" aria-hidden="true">×</button>
+                    <h3>비밀번호 찾기</h3>
+                  </div>
+                  <div class="modal-body">
+                    <fieldset>
+                      <label for="email">등록된 이메일을 입력해주세요</label>
+                      <input type="email" ng-model="email" name="email" placeholder="이메일" required>
+                    </fieldset>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-warning cancel" ng-click="closeModal()">취소</button>
+                      <button type="submit" class="btn btn-primary" ng-disabled="findpw_form.$invalid" ng-class="{disabled: findpw_form.$invalid}">확인</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
           </fieldset>
         </form>
       </div>
