@@ -12,11 +12,23 @@
 'use strict';
 
 angular.module('dashApp')
-.factory('Account', ['$http', '$q', 'Utils', 'StringResource',
-function ($http, $q, Utils, StringResource) {
+.factory('Account', ['$http', '$location', '$q', 'Utils', 'StringResource',
+function ($http, $location, $q, Utils, StringResource) {
   var userId;
   var userInfo = null;
   var ERROR = StringResource.ERROR;
+
+  function getUserId() {
+    return $http.get('/me', { responseType: 'json' })
+    .then(
+      function (response) {
+        var id = response.data.id;
+        userId = id;
+        return id;
+      },
+      Utils.handlerHttpError(ERROR.ACCOUNT.GET_USERID)
+    );
+  }
 
   function updateUserInfo() {
     if (typeof userId !== 'undefined') {
@@ -74,6 +86,18 @@ function ($http, $q, Utils, StringResource) {
     /**
      * @ngdoc method
      * @methodOf dashApp.factory:Account
+     * @name dashApp.factory:Account#getUserId
+     * @description 로그인한 사용자의 ID를 알아내어
+     * {@link dashApp.factory:Account Account} 서비스가 보관중인
+     * 사용자 ID와 사용자 정보를 갱신하는 메서드.
+     * @return {Promise} 사용자의 ID로 resolve될 promise 객체.
+     * 로그인하지 않은 상태이거나 이외의 원인에 의해 오류가 발생했으면 에러 메시지로 reject됨.
+     */
+    getUserId: getUserId,
+
+    /**
+     * @ngdoc method
+     * @methodOf dashApp.factory:Account
      * @name dashApp.factory:Account#signIn
      * @description 계정 인증 정보를 전달한 사용자를 로그인시키고,
      * {@link dashApp.factory:Account Account} 서비스가 보관중인 사용자 정보를 갱신하는 메서드.
@@ -125,6 +149,40 @@ function ($http, $q, Utils, StringResource) {
         cbSuccessfulSignIn(),
         Utils.handlerHttpError(ERROR.ACCOUNT.SIGNUP)
       );
+    },
+
+    /**
+     * @ngdoc method
+     * @methodOf dashApp.factory:Account
+     * @name dashApp.factory:Account#updateUserInfo
+     * @description {@link dashApp.factory:Account Account} 서비스가
+     *              보관중인 사용자 정보를 갱신하는 메서드.
+     *
+     * @returns {Promise} 계정 정보 갱신 결과가 전달될 promise 객체.
+     * 성공하면 `true`로 resolve됨. 인증 상태에 문제가 있거나
+     * 이외의 문제로 서버와의 통신이 올바르게 이루어지지 않은 경우에는 에러 메시지로 reject됨.
+     */
+    updateUserInfo: updateUserInfo,
+
+    /**
+     * @ngdoc method
+     * @methodOf dashApp.factory:Account
+     * @name dashApp.factory:Account#checkSignIn
+     * @description {@link dashApp.factory:Account#getUserId getUserId()}
+     *              메서드를 호출하여 사용자가 로그인한 상태인지 확인하고, 로그인한 상태이면 {@link
+     *              dashApp.factory:Account#updateUserInfo updateUserInfo()}
+     *              메서드를 호출한 다음 로그인 화면으로 이동하는 메서드.
+     */
+    checkSignIn: function () {
+      getUserId()
+      .then(function (id) {
+        return updateUserInfo();
+      })
+      .then(function (result) {
+        if (result) {
+          $location.path('/dash/');
+        }
+      });
     },
 
     /**

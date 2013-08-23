@@ -36,6 +36,38 @@ describe('Service: Account', function () {
     StringResource = _StringResource_;
   }));
 
+  it('should get the ID of user if the user has signed in', function () {
+    httpBackend.expectGET('/me')
+      .respond(200, {"id": 1});
+
+    var result;
+    var promise = Account.getUserId();
+    promise.then(function (res) {
+      result = res;
+    });
+
+    httpBackend.flush();
+
+    expect(result).toBe(1);
+  });
+
+  it('should not get the ID of user if the user has not signed in', function () {
+    httpBackend.expectGET('/me')
+      .respond(404);
+
+    var reason;
+    var promise = Account.getUserId();
+    promise.then(function() {}, function (r) {
+      reason = r;
+    });
+
+    httpBackend.flush();
+
+    var signInErr = StringResource.ERROR.ACCOUNT.GET_USERID;
+    var expectedReason = signInErr.prefix + signInErr.reasons[0].reason;
+    expect(reason).toBe(expectedReason);
+  });
+
   it('should return the user information if correct credential information is given', function () {
     httpBackend.expectPOST('/login', 'username=user&password=1234')
       .respond(200, {"id": 1});

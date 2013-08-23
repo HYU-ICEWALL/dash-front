@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirectd Page for Facebook SSO</title>
+</head>
+<body>
+  <script>
+  var parent = window.parent;
+  var angular = parent.angular;
+
+  var $rootScope = angular.element('[ng-app]').scope()
+  $rootScope.$broadcast('fbsuccess');
+  </script>
+</body>
+</html>

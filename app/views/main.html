@@ -2,8 +2,17 @@
   <div class="express-yourself"></div>
   <div class="sign">
     <div class="signin">
-      <div class="facebook">
-        <!-- <a href="#" ng-click="signInFacebook()">Facebook으로 로그인</a> -->
+      <div class="facebook" ng-controller="SigninFacebookCtrl">
+        <button type="button" ng-click="signInFacebook()" class="btn">Facebook으로 로그인</button>
+        <div modal="isModalOpen" close="closeModal()" options="opts">
+          <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" ng-click="closeModal()">&times;</button>
+            <h3>Facebook으로 로그인</h3>
+          </div>
+          <div class="facebook modal-body">
+            <iframe src="{{urlForLoginDialog}}" frameborder="0" class="frame"></iframe>
+          </div>
+        </div>
       </div>
       <span>혹은</span>
       <div class="dash">
@@ -22,9 +31,6 @@
     </div>
     <div class="signup">
       <button type="button" class="btn btn-large btn-block" ng-click="signUp()"><i class="icon-pencil"></i>회원 가입</button>
-<!--       <div ng-controller="SignupCtrl" modal="$parent.signUpModalOpen" close="closeModal()" options="opts">
-
-      </div> -->
     </div>
   </div>
 </div>

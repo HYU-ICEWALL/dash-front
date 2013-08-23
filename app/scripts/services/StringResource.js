@@ -4,6 +4,13 @@ angular.module('dashApp')
   .constant('StringResource', {
     ERROR: {
       ACCOUNT: {
+        GET_USERID: {
+          prefix: 'failed to retrieve user id: ',
+          reasons: [
+            { code: 404, reason: 'sign in required' }
+          ]
+        },
+
         UPDATE_USERINFO: {
           prefix: 'failed to retrieve new user information: ',
           reasons: [
@@ -41,6 +48,7 @@ angular.module('dashApp')
         }
       }
     },
+
     UI: {
       EDIT_USERINFO: {
         DONE_BUTTON: '완료',
@@ -49,17 +57,28 @@ angular.module('dashApp')
           PASSWORD: '새 암호',
           CONFIRM_PASSWORD: '새 암호 확인'
         },
+
         TITLE: {
           EDIT: '회원 정보 수정',
           DELETE: '계정을 삭제하시겠습니까?'
         },
+
         ERROR: {
           INCORRECT_PASSWORD: '잘못된 암호입니다.'
         }
       },
+
       HTTP_ERROR: {
         PREFIX: '오류가 발생했습니다. HTTP 응답 코드는 ',
         SUFFIX: '입니다.'
+      }
+    },
+
+    FACEBOOK: {
+      APP_ID: '',
+      LOGIN_DIALOG: {
+        url: 'https://www.facebook.com/dialog/oauth',
+        redirect_uri: 'http://localhost:8080/fb_login'
       }
     }
   });

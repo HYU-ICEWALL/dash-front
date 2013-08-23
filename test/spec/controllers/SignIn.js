@@ -40,17 +40,17 @@ describe('Controller: SigninCtrl', function () {
   it('should sign the user in only when correct credential info was given', function() {
     var promise;
 
-    promise = SigninCtrl.signIn('user', '1234');
+    promise = SigninCtrl.signInDash('user', '1234');
     promise.then(function (res) {
       expect(res).toBeTruthy();
     });
 
-    promise = SigninCtrl.signIn('user', '5678');
+    promise = SigninCtrl.signInDash('user', '5678');
     promise.then(function (res) {
       expect(res).toBeFalsy();
     });
 
-    promise = SigninCtrl.signIn('resu', '1234');
+    promise = SigninCtrl.signInDash('resu', '1234');
     promise.then(function (res) {
       expect(res).toBeFalsy();
     });
