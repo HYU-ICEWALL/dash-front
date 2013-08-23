@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('SigninCtrl', ['$scope', 'UserInfo', function ($scope, UserInfo) {
+.controller('SigninCtrl', ['$scope', 'Account', function ($scope, Account) {
   this.signIn = function (username, password) {
-    return UserInfo.signIn(username, password);
+    return Account.signIn(username, password);
   };
 }]);

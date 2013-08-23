@@ -2,10 +2,10 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('SignupCtrl', ['$scope', 'dialog', 'UserInfo', 'MajorInfo',
-  function ($scope, dialog, UserInfo, MajorInfo) {
-    $scope.majors = MajorInfo.getMajorsInfo();
-    
+.controller('SignupCtrl', ['$scope', 'dialog', 'Account', 'majors',
+  function ($scope, dialog, Account, majors) {
+    $scope.majors = majors;
+
     $scope.modalTitle = "회원 가입";
     $scope.modalDoneButtonValue = "가입";
     $scope.placeholder = {
@@ -25,7 +25,7 @@ angular.module('dashApp')
     $scope.submit = function () {
       var userinfo = $scope.userinfo;
 
-      return UserInfo.signUp({
+      return Account.signUp({
         email: userinfo.email,
         password: userinfo.password,
         major: userinfo.major

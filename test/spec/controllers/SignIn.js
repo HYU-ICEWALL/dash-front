@@ -7,13 +7,13 @@ describe('Controller: SigninCtrl', function () {
 
   var SigninCtrl,
     scope,
-    UserInfo,
+    Account,
     httpBackend;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $q, _$httpBackend_) {
     scope = $rootScope.$new();
-    UserInfo = {
+    Account = {
       signIn: function(username, password) {
         var deferred = $q.defer();
 
@@ -28,7 +28,7 @@ describe('Controller: SigninCtrl', function () {
     };
     SigninCtrl = $controller('SigninCtrl', {
       $scope: scope,
-      UserInfo: UserInfo
+      Account: Account
     });
     httpBackend = _$httpBackend_;
   }));
