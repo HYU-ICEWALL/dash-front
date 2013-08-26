@@ -5,4 +5,6 @@ angular.module('dashApp')
   this.signInDash = function (username, password) {
     return Account.signIn(username, password);
   };
+
+
 }]);
