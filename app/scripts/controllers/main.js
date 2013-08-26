@@ -15,6 +15,7 @@ angular.module('dashApp')
       }
     });
 
+
     $scope.signUp = function () {
       signUpDialog.open();
     };

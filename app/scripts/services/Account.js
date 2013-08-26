@@ -275,6 +275,16 @@ function ($http, $location, $q, Utils, StringResource) {
         userInfo = null;
         return true;
       }, Utils.handlerHttpError(ERROR.ACCOUNT.DELETE_ACCOUNT));
+    },
+
+
+    findPw: function (email){
+      var c = $.param(email);
+      return $http.post('/find_pw', c)
+      .then(function() {
+        return true;
+      }, Utils.handlerHttpError(ERROR.ACCOUNT.FIND_PASSWORD));
     }
+
   };
 }]);
