@@ -185,4 +185,36 @@ describe('Service: Account', function () {
     expect(result).toBeTruthy();
   });
 
+  it('should send email if email exist in database', function () {
+    var c = $.param({
+      email : 'abc@example.com'
+    });
+    httpBackend.expectPOST('/find_pw',c).respond(200);
+    var promise = Account.findPw({ email: 'abc@example.com'});
+    var result;
+    promise.then(function (res) {
+      result = res;
+    });
+
+    httpBackend.flush();
+
+    expect(result).toBeTruthy();
+  });
+
+  it('should reject request when user not exist', function () {
+    var c = $.param({
+      email : 'def@example.com'
+    });
+    httpBackend.expectPOST('/find_pw',c).respond(404);
+    var promise = Account.findPw({ email: 'def@example.com'});
+    var result;
+    promise.then(function (res) {
+      result = res;
+    });
+
+    httpBackend.flush();
+
+    expect(result).toBeFalsy();
+  })
+
 });

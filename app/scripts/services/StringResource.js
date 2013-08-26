@@ -38,6 +38,13 @@ angular.module('dashApp')
           reasons: [
             { code: 404, reason: 'invalid credential information' }
           ]
+        },
+
+        FIND_PASSWORD: {
+          prefix: 'failed to send email: ',
+          reasons: [
+            { code: 404, reason: 'can\'t find the account with such email address'}
+          ]
         }
       }
     },
@@ -54,7 +61,8 @@ angular.module('dashApp')
           DELETE: '계정을 삭제하시겠습니까?'
         },
         ERROR: {
-          INCORRECT_PASSWORD: '잘못된 암호입니다.'
+          INCORRECT_PASSWORD: '잘못된 암호입니다.',
+          INCORRECT_EMAIL: '잘못된 이메일입니다.'
         }
       },
       HTTP_ERROR: {
