@@ -1,7 +1,17 @@
+/* jshint -W106 */
 'use strict';
 
 angular.module('dashApp')
-  .constant('StringResource', {
+.constant('StringResource', (function () {
+  var pathStatic = ''; //'static/';
+
+  return {
+    VIEW: {
+      urlFor: function (filename) {
+        return pathStatic + 'views/' + filename;
+      }
+    },
+
     ERROR: {
       ACCOUNT: {
         GET_USERID: {
@@ -76,10 +86,15 @@ angular.module('dashApp')
         }
       },
 
+      TIMETABLE: {
+        DAYS_OF_WEEK: ['월', '화', '수', '목', '금', '토', '일'],
+        COLOR_SWATCH: ['#d8e200', '#f1bdcc', '#e4d198', '#68c7c1', '#86bce3', '#fdb900', '#f08162']
+      },
+
       HTTP_ERROR: {
         PREFIX: '오류가 발생했습니다. HTTP 응답 코드는 ',
         SUFFIX: '입니다.'
-      }
+      },
     },
 
     FACEBOOK: {
@@ -89,4 +104,5 @@ angular.module('dashApp')
         redirect_uri: 'http://localhost:8080/fb_login'
       }
     }
-  });
+  };
+})());

@@ -1,3 +1,4 @@
+/* jshint -W106 */
 'use strict';
 
 angular.module('dashApp')

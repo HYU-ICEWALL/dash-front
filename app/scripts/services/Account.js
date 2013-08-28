@@ -1,3 +1,4 @@
+/* jshint -W106 */
 /**
  * @ngdoc object
  * @name dashApp.factory:Account
@@ -50,37 +51,6 @@ function ($http, $location, $q, Utils, StringResource) {
     };
   }
 
-  function cbErrorFor(task, status, deferred) {
-    if (typeof task !== 'string') {
-      status = task;
-      task = '';
-    }
-
-    if (typeof status === 'number') {
-      var code = status;
-      status = [code];
-    }
-
-    return function (d, s) {
-      var resolved = false;
-
-      $.each(status, function (index) {
-        if (s === status[index]) {
-          deferred.resolve(false);
-          resolved = true;
-          return false;
-        }
-      });
-
-      if (!resolved) {
-        deferred.reject(
-          ((task !== '') ? task + ' ' : task) +
-          'failed due to server error'
-        );
-      }
-    };
-  }
-
   // Public API here
   return {
     /**
@@ -110,7 +80,6 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     signIn: function (username, password) {
       var credential = $.param({username: username, password: password});
-      var deferred = $q.defer();
 
       return $http.post('/login', credential, {
         headers: {
@@ -175,7 +144,7 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     checkSignIn: function () {
       getUserId()
-      .then(function (id) {
+      .then(function () {
         return updateUserInfo();
       })
       .then(function (result) {
@@ -240,8 +209,8 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     editUserInfo: function (data) {
       var d = $.extend({}, data);
-      delete d['confirm_email'];
-      delete d['confirm_password'];
+      delete d.confirm_email;
+      delete d.confirm_password;
 
       return $http.put('/member/' + userId, d)
       .then(function () {

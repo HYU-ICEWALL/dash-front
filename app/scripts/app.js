@@ -17,17 +17,17 @@ angular.module('dashApp', [
   'ui.validate',
   'ui.state'
 ])
-.config(function ($stateProvider, $urlRouterProvider) {
-$urlRouterProvider.otherwise('/');
-$stateProvider
-  .state('main', {
-    url: '/',
-    templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
-  })
-  .state('dash', {
-    url: '/dash/',
-    templateUrl: 'views/dash.html',
-    controller: 'DashboardCtrl'
-  });
+.config(function ($stateProvider, $urlRouterProvider, StringResource) {
+  $urlRouterProvider.otherwise('/');
+  $stateProvider
+    .state('main', {
+      url: '/',
+      templateUrl: StringResource.VIEW.urlFor('main.html'),
+      controller: 'MainCtrl'
+    })
+    .state('dash', {
+      url: '/dash/',
+      templateUrl: StringResource.VIEW.urlFor('dash.html'),
+      controller: 'DashboardCtrl'
+    });
 });

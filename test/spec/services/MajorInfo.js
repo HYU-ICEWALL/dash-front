@@ -16,9 +16,9 @@ describe('Service: MajorInfo', function () {
 
   // instantiate service
   var MajorInfo, httpBackend;
-  beforeEach(inject(function (_MajorInfo_, _$httpBackend_) {
+  beforeEach(inject(function (_MajorInfo_, $httpBackend) {
     MajorInfo = _MajorInfo_;
-    httpBackend= _$httpBackend_;
+    httpBackend= $httpBackend;
   }));
 
 
