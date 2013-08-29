@@ -66,6 +66,28 @@ body {
   }
 }
 
+@mixin timetable-bar-base {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  border: 0;
+  border-bottom: 1px solid;
+}
+
+@mixin timetable-horizontal-bar-base {
+  @include timetable-bar-base;
+  height: 0;
+  left: 0;
+  right: 0;
+}
+
+@mixin timetable-vertical-bar-base {
+  @include timetable-bar-base;
+  width: 0;
+  top: 0;
+  bottom: 0;
+}
+
 timetable,
 div[timetable] {
   display: block;
@@ -97,14 +119,9 @@ div[timetable] {
   }
 
   .days_bar {
-    margin: 0;
-    padding: 0;
-    position: absolute;
+    @include timetable-horizontal-bar-base;
     top: $timetableDaysHeight;
-    left: 0;
-    right: 0;
-    border: 0;
-    border-bottom: 1px solid $timetableDaysBarColor;
+    border-bottom-color: $timetableDaysBarColor;
   }
 
   .units {
@@ -133,29 +150,20 @@ div[timetable] {
       }
 
       .bar {
-        margin: 0;
-        padding: 0;
-        position: absolute;
+        @include timetable-horizontal-bar-base;
         top: 0;
         left: $timetableUnitsWidth;
-        right: 0;
-        border: 0;
-        border-bottom: 1px solid $timetableUnitBarColor;
+        border-bottom-color: $timetableUnitBarColor;
       }
     }
   }
 
   .units_bar {
     display: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
+    @include timetable-vertical-bar-base;
     top: $timetableDaysHeight;
-    bottom: 0;
     left: $timetableUnitsWidth;
-    width: 0;
-    border: 0;
-    border-right: 1px solid $timetableUnitsBarColor;
+    border-right-color: $timetableUnitsBarColor;
   }
 
   .times {

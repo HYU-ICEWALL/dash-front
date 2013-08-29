@@ -48,7 +48,8 @@ function (config, StringResource) {
     compile: function compile(element) {
       var days = jQuery('.days', element);
       var DAYS_PER_WEEK = config.DAYS_PER_WEEK;
-      var widthPerDay = days.width() / DAYS_PER_WEEK;
+      // Math.floor() was used to fix 1px-whitespace bug
+      var widthPerDay = Math.floor(days.width() / DAYS_PER_WEEK);
 
       for (var i = 0; i < DAYS_PER_WEEK; ++i) {
         var day = divWithClass('day');
