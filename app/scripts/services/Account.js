@@ -112,7 +112,7 @@ function ($http, $location, $q, Utils, StringResource) {
       var credential = $.param({username: username, password: password});
       var deferred = $q.defer();
 
-      return $http.post('/login', credential, {
+      return $http.post('/api/login', credential, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -144,7 +144,7 @@ function ($http, $location, $q, Utils, StringResource) {
      * 이외의 문제로 서버와의 통신이 올바르게 이루어지지 않은 경우에는 에러 메시지로 reject됨.
      */
     signUp: function (data) {
-      return $http.post('/member', data, {responseType: 'json'})
+      return $http.post('/api/users', data, {responseType: 'json'})
       .then(
         cbSuccessfulSignIn(),
         Utils.handlerHttpError(ERROR.ACCOUNT.SIGNUP)
@@ -243,7 +243,7 @@ function ($http, $location, $q, Utils, StringResource) {
       delete d['confirm_email'];
       delete d['confirm_password'];
 
-      return $http.put('/member/' + userId, d)
+      return $http.put('/users/' + userId, d)
       .then(function () {
         return updateUserInfo();
       }, Utils.handlerHttpError(ERROR.ACCOUNT.EDIT_USERINFO));

@@ -54,6 +54,42 @@ angular.module('dashApp')
           ]
         }
       }
+      TIMETABLE: {
+        UPDATETIMETABLEINFO: {
+          prefix: 'failed to get timetable information: ',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        ADDTIMETABLE: {
+          prefix: 'faild to add timetable'
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        READTIMETABLEBYID: {
+          prefix: 'failed to read timetable by id'
+          reasons: [
+            { code: 404, reason: 'invalid timetable id' }
+          ]
+        },
+
+        DELETETIMETABLE: {
+          prefix: 'failed to delete timetable'
+          resons: [
+            { code: 404, reson: 'invalid timetable code' }
+          ]
+        },
+
+        EDITTIMETABLE: {
+          prefix: 'failed to edit timetable'
+          reasons: [
+            { code: 404, reason: 'invalid timetable code'}
+          ]
+        }
+      }
     },
 
     UI: {
