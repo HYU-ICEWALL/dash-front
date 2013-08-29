@@ -20,7 +20,17 @@
   <div class="timetable">
     <timetable display="timetable.display" classes="timetable.classes" excluded-periods="timetable.excludedPeriods"></timetable>
   </div>
-  <div class="detail_table">
-
-  </div>
+<!--색/강좌코드/강좌명/강사이름/학수번호/학점/학년/타입-->
+  <table class="detail_table">
+    <tr ng-repeat="tt in timetable.classes" ng-class="timetable">
+      <th width="50px">색</th>
+      <th width="70px">{{tt.class_no}}</th>
+      <th width="360px">{{tt.title}}</th>
+      <th width="80px">{{tt.instructor}}</th>
+      <th width="90px">{{tt.course_no}}</th>
+      <th width="80px">{{tt.score}}학점</th>
+      <th width="80px">{{tt.grade}}</th>
+      <th width="160px">{{tt.major}}</th>
+    </tr>
+  </table>
 </form>

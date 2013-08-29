@@ -16,6 +16,7 @@ $timetableDayColor: #ccc;
 $timetableDaysBarColor: #ccc;
 $timetableTimeExcludedBackgroundColor: #f0f0f0;
 
+
 html, body {
   margin: 20px;
 }
@@ -189,3 +190,14 @@ div[timetable] {
     }
   }
 }
+
+table.detail_table{
+  top:50%; left:50%;
+  margin: 0; padding: 0; line-height: 21px;
+  border-top: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
+  border-collapse: collapse;
+  border-bottom: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+}
+

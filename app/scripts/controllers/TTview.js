@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('TTviewCtrl', ['$scope', '$location', 'StringResource', 'config', '$dialog',
-  function ($scope, $location, StringResource, config, $dialog) {
-    $scope.title = 'asdf';
+.controller('TTviewCtrl', ['$scope', 'StringResource', 'config',
+  function ($scope, StringResource, config) {
+    $scope.title = '시간표 이름';
     $scope.freetime = 0;
     $scope.total = 0;
     $scope.classday = config.DAYS_PER_WEEK;
@@ -57,7 +57,9 @@ angular.module('dashApp')
           'time': [
             {'start_time': 216, 'end_time': 218, 'room': 'H77-0207'},
             {'start_time': 514, 'end_time': 516, 'room': 'H77-0207'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'ITE316',
@@ -68,7 +70,9 @@ angular.module('dashApp')
           'time': [
             {'start_time': 115, 'end_time': 117, 'room': 'H77-0813'},
             {'start_time': 315, 'end_time': 317, 'room': 'H77-0813'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'SYH003',
@@ -78,7 +82,9 @@ angular.module('dashApp')
           'score': 2.00,
           'time': [
             {'start_time': 607, 'end_time': 610, 'room': 'H'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'CSE406',
@@ -89,7 +95,9 @@ angular.module('dashApp')
           'time': [
             {'start_time': 213, 'end_time': 215, 'room': 'H93-0811'},
             {'start_time': 306, 'end_time': 308, 'room': 'H93-0811'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'ELE429',
@@ -100,7 +108,9 @@ angular.module('dashApp')
           'time': [
             {'start_time': 303, 'end_time': 305, 'room': 'H77-0813'},
             {'start_time': 505, 'end_time': 507, 'room': 'H77-0507'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'ENE419',
@@ -111,7 +121,9 @@ angular.module('dashApp')
           'time': [
             {'start_time': 418, 'end_time': 420, 'room': 'H77-0203'},
             {'start_time': 511, 'end_time': 513, 'room': 'H77-0501'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         },
         {
           'course_no': 'GEN606',
@@ -121,7 +133,9 @@ angular.module('dashApp')
           'score': 2.00,
           'time': [
             {'start_time': 205, 'end_time': 208, 'room': 'H77-0813'}
-          ]
+          ],
+          'grade':'3학년',
+          'major':'컴퓨터공학부'
         }
       ],
       excludedPeriods: [109, 110, 209, 210, 309, 310, 409, 410]
