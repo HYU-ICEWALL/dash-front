@@ -4,6 +4,8 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 @import "bootstrap-sass/lib/bootstrap";
 
 /* Put your CSS here */
+$bodyPaddingTop: 20px;
+$bodyPaddingBottom: 20px;
 $timetableHeightPerHour: 60px;
 $timetableUnitsWidth: 60px;
 $timetableUnitMarginRight: 4px;
@@ -24,6 +26,14 @@ body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
+    padding-top: $bodyPaddingTop;
+    padding-bottom: $bodyPaddingBottom;
+}
+
+.dash.container {
+  position: absolute;
+  top: $navbarHeight + $bodyPaddingTop;
+  bottom: $bodyPaddingBottom;
 }
 
 .hero-unit {
@@ -93,6 +103,7 @@ div[timetable] {
   display: block;
   position: relative;
   width: 100%;
+  min-height: 100px;
   overflow: hidden;
 
   .cell {
@@ -184,8 +195,45 @@ div[timetable] {
       .text {
         display: table-cell;
         vertical-align: middle;
-        text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+        color: #fff;
+        //text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
       }
     }
+  }
+}
+
+.timetables {
+  [class*="span"] {
+    position: relative;
+    height: 100%;
+  }
+
+  scrollbar, [scrollbar] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+
+    &.left-column {
+      bottom: 40px;
+    }
+  }
+
+  .form-search {
+    .search-query {
+      width: 190px;
+    }
+  }
+
+  .view-switcher {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  .list {
+    margin-bottom: 0;
   }
 }

@@ -6,3 +6,4 @@ app/bower_components
 *.sublime*
 .DS_store
 .swp
+*.log

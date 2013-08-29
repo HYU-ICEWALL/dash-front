@@ -4,12 +4,35 @@
 angular.module('dashApp')
 .constant('StringResource', (function () {
   var pathStatic = ''; //'static/';
+  var concat = function () {
+    var res = '';
+
+    angular.forEach(arguments, function(arg){
+      res += arg;
+    });
+
+    return res;
+  };
+
+  var getUrlFor = function (path) {
+    return function (filename) {
+      return concat(pathStatic, path, filename);
+    };
+  };
 
   return {
     VIEW: {
-      urlFor: function (filename) {
-        return pathStatic + 'views/' + filename;
-      }
+      DASH: {
+        TIMETABLES: {
+          LEFT_COLUMN: {
+            urlFor: getUrlFor('views/dash/timetables/left-column/')
+          },
+
+          urlFor: getUrlFor('views/dash/timetables/')
+        }
+      },
+
+      urlFor: getUrlFor('views/')
     },
 
     ERROR: {

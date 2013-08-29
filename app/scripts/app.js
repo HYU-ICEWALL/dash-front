@@ -26,8 +26,13 @@ angular.module('dashApp', [
       controller: 'MainCtrl'
     })
     .state('dash', {
-      url: '/dash/',
+      url: '/dash',
       templateUrl: StringResource.VIEW.urlFor('dash.html'),
       controller: 'DashboardCtrl'
+    })
+    .state('dash.timetables', {
+      url: '/timetables',
+      templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('index.html'),
+      controller: 'TimetablesCtrl'
     });
 });

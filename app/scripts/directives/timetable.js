@@ -48,16 +48,11 @@ function (config, StringResource) {
     compile: function compile(element) {
       var days = jQuery('.days', element);
       var DAYS_PER_WEEK = config.DAYS_PER_WEEK;
-      // Math.floor() was used to fix 1px-whitespace bug
-      var widthPerDay = Math.floor(days.width() / DAYS_PER_WEEK);
 
       for (var i = 0; i < DAYS_PER_WEEK; ++i) {
         var day = divWithClass('day');
 
-        day.text(StringResource.UI.TIMETABLE.DAYS_OF_WEEK[i])
-           .css('left', widthPerDay * i + 'px')
-           .css('width', widthPerDay)
-           .appendTo(days);
+        day.text(StringResource.UI.TIMETABLE.DAYS_OF_WEEK[i]).appendTo(days);
       }
 
       var dayHeight = divWithClass('day height').appendTo(days);
@@ -65,7 +60,16 @@ function (config, StringResource) {
       dayHeight.remove();
 
       return function postLink(scope, element) {
+        var days = jQuery('.days', element);
+        // Math.floor() was used to fix 1px-whitespace bug
+        var widthPerDay = Math.floor(days.width() / DAYS_PER_WEEK);
         scope.widthPerDay = widthPerDay;
+
+        jQuery('.day', days).each(function (i) {
+          jQuery(this).css('left', widthPerDay * i + 'px')
+                      .css('width', widthPerDay);
+        });
+
         scope.timeForPeriod = timeForPeriods(1);
 
         var heightPerHour = getHeight('cell', element);
@@ -93,7 +97,7 @@ function (config, StringResource) {
             units.push(unit ? unit : 12);
           }
 
-          element.css('height', heightDays + heightUnits);
+          element.height(heightDays + heightUnits);
 
           scope.units = units;
           scope.isDisplaySet = true;

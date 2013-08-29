@@ -2,7 +2,7 @@
 </div>
 <hr class="days_bar">
 <div class="units" ng-style="{height: heightUnits + 'px'}">
-    <div ng-repeat="unit in units" class="unit" ng-style="{top: heightPerHour * ($index + 0.5) + 'px'}">
+    <div ng-repeat="unit in units" class="unit" ng-style="{top: heightPerHour * ($index + 0.5) + 'px'}" repeat-and-update>
       <span class="text">{{ unit + ':00' }}</span>
       <hr class="bar">
     </div>
