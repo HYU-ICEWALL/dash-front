@@ -17,4 +17,9 @@ function ($scope, $window, Account, Facebook) {
     $scope.closeModal();
     Account.checkSignIn();
   });
+
+  $scope.opts = {
+    backdropFade: true,
+    dialogFade:true
+  };
 }]);

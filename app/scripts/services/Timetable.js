@@ -1,7 +1,8 @@
 'use strict' ;
 
 angular.module('dashApp')
-  .factory('Timetable', function () {
+  .factory('Timetable', ['$http', 'Utils', 'StringResource',
+  function ($http, Utils, StringResource) {
     // Service logic
     // ...
 
@@ -11,7 +12,7 @@ angular.module('dashApp')
 
     updatesTimeTablebyId = function () {
       var tt_id = ti;
-      return $http.get('api/users/' + user_id + '/timetables', { response Type : 'json' })
+      return $http.get('api/users/' + user_id + '/timetables', {responseType: 'json' })
       .then(function (response) {
         timetable = response;
       },
@@ -22,7 +23,7 @@ angular.module('dashApp')
     return {
       updatesTimeTablelist : function (ui) {
         var user_id = ui;
-        return $http.get('api/users/' + user_id + '/timetables',{ response Type : 'json' })
+        return $http.get('api/users/' + user_id + '/timetables',{responseType: 'json' })
         .then(function (response) {
           timetable = response;
         },
@@ -32,29 +33,25 @@ angular.module('dashApp')
       addTimeTable : function (ui, data) {
         var id = data.tt_id;
         var user_id = ui;
-        if(id != undefined){
-          return $http.post('api/users/' + user_id + 'timetables', data, {responseType})
-          .then(
-            updatesTimeTable(),
-            Utils.handlerHttpError(ERROR.TIMETABLE.ADDTIMETABLE))
-        }
-        else{
-          return $http.post('api/users/' + user_id + 'timetables', data, {responseType})
-          .then(
-            updatesTimeTable(),
-            Utils.handlerHttpError(ERROR.TIMETABLE.ADDTIMETABLE))
-        }
+        return $http.post('api/users/' + user_id + 'timetables', data)
+        .then(
+          updatesTimeTable(),
+          Utils.handlerHttpError(ERROR.TIMETABLE.ADDTIMETABLE))
       },
 
-      readTimeTablebyId : function (ui, ti) {
-        var user_id = ui;
+      readTimeTablebyId : function (ti, ui) {
         var tt_id = ti;
-        return $http.get('api/users/' + user_id + 'timetables/' + tt_id, { responseType : 'json' })
-        .then(function (response) {
-          var timetable = response;
-          return timetable;
-        }.
-          Utils.handlerHttpError(ERROR.TIMETABLE.READTIMETABLEBYID))
+        var user_id = ui;
+        if(user_id!==undefined){
+          return $http.get('api/users/' + user_id + 'timetables/' + tt_id, {responseType: 'json' })
+          .then(function (response) {
+            var timetable = response;
+            return timetable;
+          }.
+            Utils.handlerHttpError(ERROR.TIMETABLE.READTIMETABLEBYID))
+        } else {
+          return $http.get('api/users/' + 'timetables/' + tt_id)
+        }
       },
 
       deleteTimeTable : function (ui, ti, from_list) {
@@ -78,4 +75,4 @@ angular.module('dashApp')
           Utils.handlerHttpError(ERROR.TIMETABLE,EDITTIMETABLE))
       }
     };
-  });
+  }]);

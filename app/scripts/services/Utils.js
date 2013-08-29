@@ -90,7 +90,7 @@ angular.module('dashApp')
         var status = response.status;
 
         angular.forEach(errorSpec.reasons, function(value){
-          if (status == value.code) {
+          if (status === value.code) {
             reason = value.reason;
           }
         });
@@ -101,7 +101,7 @@ angular.module('dashApp')
 
         reason = errorSpec.prefix + reason;
         return $q.reject(reason);
-      }
+      };
     },
 
     /**
@@ -121,7 +121,7 @@ angular.module('dashApp')
       var result = regexHttpCodeFromErrorReason.exec(reason);
 
       if (result && result.length >= 2) {
-        return parseInt(result[1]);
+        return parseInt(result[1], 10);
       } else {
         return null;
       }

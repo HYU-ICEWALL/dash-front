@@ -2,23 +2,23 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('SignupCtrl', ['$scope', 'dialog', 'Account', 'majors',
+.controller('SignupCtrl', [
+  '$scope', 'dialog', 'Account', 'majors',
   function ($scope, dialog, Account, majors) {
     $scope.majors = majors;
 
-    $scope.modalTitle = "회원 가입";
-    $scope.modalDoneButtonValue = "가입";
+    $scope.modalTitle = '회원 가입';
+    $scope.modalDoneButtonValue = '가입';
     $scope.placeholder = {
-      curr_password: "",
-      password: "암호",
-      confirm_password: ""
+      curr_password: '',
+      password: '암호',
+      confirm_password: ''
     };
     $scope.isSignUpForm = true;
 
     $scope.userinfo = {};
 
     $scope.closeModal = function () {
-      //$scope.$parent.signUpModalOpen = false;
       dialog.close();
     };
 
@@ -31,6 +31,5 @@ angular.module('dashApp')
         major: userinfo.major
       });
     };
-
-
-  }]);
+  }
+]);

@@ -323,11 +323,11 @@ module.exports = function (grunt) {
           groupIcon: 'icon-beer',
           sections: [
             {
-              id: "userinfo",
-              title: "User Information",
+              id: 'userinfo',
+              title: 'User Information',
               showSource: false,
               scripts: [
-                "<%= yeoman.app %>/scripts"
+                '<%= yeoman.app %>/scripts'
               ]
             }
           ]

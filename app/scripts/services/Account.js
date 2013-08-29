@@ -1,3 +1,4 @@
+/* jshint -W106 */
 /**
  * @ngdoc object
  * @name dashApp.factory:Account
@@ -19,7 +20,7 @@ function ($http, $location, $q, Utils, StringResource) {
   var ERROR = StringResource.ERROR;
 
   function getUserId() {
-    return $http.get('/me', { responseType: 'json' })
+    return $http.get('/api/users/me', { responseType: 'json' })
     .then(
       function (response) {
         var id = response.data.id;
@@ -32,7 +33,7 @@ function ($http, $location, $q, Utils, StringResource) {
 
   function updateUserInfo() {
     if (typeof userId !== 'undefined') {
-      return $http.get('/member/' + userId, {responseType: 'json'})
+      return $http.get('/api/users/me', {responseType: 'json'})
       .then(function (response) {
         userInfo = angular.extend({}, response.data);
         userInfo.fb_id = userInfo.fb_id || null;
@@ -47,37 +48,6 @@ function ($http, $location, $q, Utils, StringResource) {
     return function (response) {
       userId = response.data.id;
       return updateUserInfo();
-    };
-  }
-
-  function cbErrorFor(task, status, deferred) {
-    if (typeof task !== 'string') {
-      status = task;
-      task = '';
-    }
-
-    if (typeof status === 'number') {
-      var code = status;
-      status = [code];
-    }
-
-    return function (d, s) {
-      var resolved = false;
-
-      $.each(status, function (index) {
-        if (s === status[index]) {
-          deferred.resolve(false);
-          resolved = true;
-          return false;
-        }
-      });
-
-      if (!resolved) {
-        deferred.reject(
-          ((task !== '') ? task + ' ' : task) +
-          'failed due to server error'
-        );
-      }
     };
   }
 
@@ -110,7 +80,6 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     signIn: function (username, password) {
       var credential = $.param({username: username, password: password});
-      var deferred = $q.defer();
 
       return $http.post('/api/login', credential, {
         headers: {
@@ -175,7 +144,7 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     checkSignIn: function () {
       getUserId()
-      .then(function (id) {
+      .then(function () {
         return updateUserInfo();
       })
       .then(function (result) {
@@ -240,10 +209,10 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     editUserInfo: function (data) {
       var d = $.extend({}, data);
-      delete d['confirm_email'];
-      delete d['confirm_password'];
+      delete d.confirm_email;
+      delete d.confirm_password;
 
-      return $http.put('/users/' + userId, d)
+      return $http.put('/api/users/me' , d)
       .then(function () {
         return updateUserInfo();
       }, Utils.handlerHttpError(ERROR.ACCOUNT.EDIT_USERINFO));
@@ -270,7 +239,14 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     deleteAccount: function (credential) {
       var c = $.param(credential);
-      return $http.post('/member/' + userId + '/delete', c)
+      return $http(
+        {
+          method : 'DELETE',
+          url : '/api/users/me',
+          data : c,
+          headers : {'Content-Type' : 'application/json'}
+        }
+      )
       .then(function () {
         userInfo = null;
         return true;
@@ -280,7 +256,7 @@ function ($http, $location, $q, Utils, StringResource) {
 
     findPw: function (email){
       var c = $.param(email);
-      return $http.post('/find_pw', c)
+      return $http.post('/api/reset_password', c)
       .then(function() {
         return true;
       }, Utils.handlerHttpError(ERROR.ACCOUNT.FIND_PASSWORD));
