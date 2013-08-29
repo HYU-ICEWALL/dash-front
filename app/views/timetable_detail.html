@@ -1,0 +1,26 @@
+<form class="timetable_detail" name="timetable_detail" ng-controller="TTviewCtrl">
+  <div class="title">
+    <h1>
+      <span>{{ title }}</span>
+      <button class="btn pull-right" type="button">4</button>
+      <button class="btn pull-right" type="button">3</button>
+      <button class="btn pull-right" type="button">2</button>
+      <button class="btn pull-right" type="button">1</button>
+    </h1>
+  </div>
+  <div class="info" style="text-align: cetner;">
+    <h4>
+    <span class="text">{{ '공강 : '+freetime+'시간' }}</span>
+    <span>/</span>
+    <span class="text">{{ '총 : '+total+'학점' }}</span>
+    <span>/</span>
+    <span class="text">{{ '주 : '+classday+'회 수업' }}</span>
+    </h4>
+  </div>
+  <div class="timetable">
+    <timetable display="timetable.display" classes="timetable.classes" excluded-periods="timetable.excludedPeriods"></timetable>
+  </div>
+  <div class="detail_table">
+
+  </div>
+</form>
