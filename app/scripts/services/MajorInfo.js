@@ -8,7 +8,7 @@ angular.module('dashApp')
     function updatesMajorsInfo() {
       var deferred = $q.defer();
 
-      $http.get('/major', {responseType:'json'})
+      $http.get('/api/majors', {responseType:'json'})
       .success(function (data){
         majorsInfo = data;
         deferred.resolve(true);

@@ -20,7 +20,7 @@ function ($http, $location, $q, Utils, StringResource) {
   var ERROR = StringResource.ERROR;
 
   function getUserId() {
-    return $http.get('/me', { responseType: 'json' })
+    return $http.get('/api/users/me', { responseType: 'json' })
     .then(
       function (response) {
         var id = response.data.id;
@@ -33,7 +33,7 @@ function ($http, $location, $q, Utils, StringResource) {
 
   function updateUserInfo() {
     if (typeof userId !== 'undefined') {
-      return $http.get('/member/' + userId, {responseType: 'json'})
+      return $http.get('/api/users/me', {responseType: 'json'})
       .then(function (response) {
         userInfo = angular.extend({}, response.data);
         userInfo.fb_id = userInfo.fb_id || null;
@@ -81,7 +81,7 @@ function ($http, $location, $q, Utils, StringResource) {
     signIn: function (username, password) {
       var credential = $.param({username: username, password: password});
 
-      return $http.post('/login', credential, {
+      return $http.post('/api/login', credential, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -113,7 +113,7 @@ function ($http, $location, $q, Utils, StringResource) {
      * 이외의 문제로 서버와의 통신이 올바르게 이루어지지 않은 경우에는 에러 메시지로 reject됨.
      */
     signUp: function (data) {
-      return $http.post('/member', data, {responseType: 'json'})
+      return $http.post('/api/users', data, {responseType: 'json'})
       .then(
         cbSuccessfulSignIn(),
         Utils.handlerHttpError(ERROR.ACCOUNT.SIGNUP)
@@ -212,7 +212,7 @@ function ($http, $location, $q, Utils, StringResource) {
       delete d.confirm_email;
       delete d.confirm_password;
 
-      return $http.put('/member/' + userId, d)
+      return $http.put('/api/users/me' , d)
       .then(function () {
         return updateUserInfo();
       }, Utils.handlerHttpError(ERROR.ACCOUNT.EDIT_USERINFO));
@@ -239,7 +239,14 @@ function ($http, $location, $q, Utils, StringResource) {
      */
     deleteAccount: function (credential) {
       var c = $.param(credential);
-      return $http.post('/member/' + userId + '/delete', c)
+      return $http(
+        {
+          method : 'DELETE',
+          url : '/api/users/me',
+          data : c,
+          headers : {'Content-Type' : 'application/json'}
+        }
+      )
       .then(function () {
         userInfo = null;
         return true;
@@ -249,7 +256,7 @@ function ($http, $location, $q, Utils, StringResource) {
 
     findPw: function (email){
       var c = $.param(email);
-      return $http.post('/find_pw', c)
+      return $http.post('/api/reset_password', c)
       .then(function() {
         return true;
       }, Utils.handlerHttpError(ERROR.ACCOUNT.FIND_PASSWORD));

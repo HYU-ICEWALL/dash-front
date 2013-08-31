@@ -23,7 +23,7 @@ describe('Service: MajorInfo', function () {
 
 
   it('should get major list ', function () {
-    httpBackend.expectGET('/major').respond(200, [
+    httpBackend.expectGET('/api/majors').respond(200, [
       {name: '컴퓨터공학부', code: 'H3HADD'},
       {name: '컴퓨터전공', code: 'H3HADDA'},
       {name: '소프트웨어전공', code: 'H3HADDB'}

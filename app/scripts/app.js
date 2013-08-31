@@ -31,14 +31,19 @@ angular.module('dashApp', [
       templateUrl: StringResource.VIEW.urlFor('dash.html'),
       controller: 'DashboardCtrl'
     })
-    .state('dash.timetables', {
-      url: '/timetables',
-      templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('index.html'),
-      resolve: {
-        timetables: ['Timetable', function (Timetable) {
-          return Timetable.query({limit: 20, offset: 0});
-        }]
-      },
-      controller: 'TimetablesCtrl'
-    });
+      .state('dash.timetables', {
+        url: '/timetables',
+        templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('index.html'),
+        resolve: {
+          timetables: ['Timetable', function (Timetable) {
+            return Timetable.query({limit: 20, offset: 0});
+          }]
+        },
+        controller: 'TimetablesCtrl'
+      })
+        .state('dash.timetables.detail', {
+          url: '/:ttId',
+          templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('timetable_detail.html'),
+          controller: 'TTviewCtrl'
+        });
 });

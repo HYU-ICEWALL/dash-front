@@ -86,6 +86,42 @@ angular.module('dashApp')
             { code: 404, reason: 'can\'t find the account with such email address'}
           ]
         }
+      },
+      TIMETABLE: {
+        UPDATETIMETABLEINFO: {
+          prefix: 'failed to get timetable information: ',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        ADDTIMETABLE: {
+          prefix: 'faild to add timetable',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        READTIMETABLEBYID: {
+          prefix: 'failed to read timetable by id',
+          reasons: [
+            { code: 404, reason: 'invalid timetable id' }
+          ]
+        },
+
+        DELETETIMETABLE: {
+          prefix: 'failed to delete timetable',
+          resons: [
+            { code: 404, reson: 'invalid timetable code' }
+          ]
+        },
+
+        EDITTIMETABLE: {
+          prefix: 'failed to edit timetable',
+          reasons: [
+            { code: 404, reason: 'invalid timetable code'}
+          ]
+        }
       }
     },
 
@@ -117,7 +153,7 @@ angular.module('dashApp')
       HTTP_ERROR: {
         PREFIX: '오류가 발생했습니다. HTTP 응답 코드는 ',
         SUFFIX: '입니다.'
-      },
+      }
     },
 
     FACEBOOK: {

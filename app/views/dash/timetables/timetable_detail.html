@@ -1,0 +1,33 @@
+<div class="header clearfix">
+  <h3 class="title pull-left">{{ title }}</h3>
+  <div class="pull-right">
+    <button class="btn" type="button">4</button>
+    <button class="btn" type="button">3</button>
+    <button class="btn" type="button">2</button>
+    <button class="btn" type="button">1</button>
+  </div>
+</div>
+<div class="info">
+  <span class="text">{{ '공강 ' + nFreeHours + '시간' }}</span>
+  <span>/</span>
+  <span class="text">{{ '총 ' + totalScore + '학점' }}</span>
+  <span>/</span>
+  <span class="text">{{ '주 ' + nClassDays + '회 수업' }}</span>
+</div>
+<div class="timetable">
+  <timetable classes="timetable.classes" excluded-periods="timetable.excludedPeriods"></timetable>
+</div>
+<div class="classes">
+  <table class="table">
+    <tr ng-repeat="c in timetable.classes" class="class">
+      <td width="50px"><i class="ball"></i></td>
+      <td width="70px">{{c.class_no}}</td>
+      <td width="360px">{{c.title}}</td>
+      <td width="80px">{{c.instructor}}</td>
+      <td width="90px">{{c.course_no}}</td>
+      <td width="80px">{{c.score}}</td>
+      <td width="80px">{{c.grade}}</td>
+      <td width="160px">{{c.major}}</td>
+    </tr>
+  </table>
+</div>
