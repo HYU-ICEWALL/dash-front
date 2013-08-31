@@ -3,9 +3,13 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import "bootstrap-sass/lib/bootstrap";
 
-/* Put your CSS here */
+/* variables */
+
+/* body */
 $bodyPaddingTop: 20px;
 $bodyPaddingBottom: 20px;
+
+/* timetable directive */
 $timetableHeightPerHour: 60px;
 $timetableUnitsWidth: 60px;
 $timetableUnitMarginRight: 4px;
@@ -18,6 +22,26 @@ $timetableDayColor: #ccc;
 $timetableDaysBarColor: #ccc;
 $timetableTimeExcludedBackgroundColor: #f0f0f0;
 
+/* timetables detail view */
+$timetablesDetailHeaderHeight: $baseLineHeight * 3;
+
+/* mixins */
+@mixin box-absolute-full-width {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+@mixin box-absolute-full-height {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+@mixin box-absolute-full {
+  @include box-absolute-full-width;
+  @include box-absolute-full-height;
+}
 
 html, body {
   margin: 20px;
@@ -112,10 +136,9 @@ timetable,
   }
 
   .days {
+    @include box-absolute-full-width;
     left: $timetableUnitsWidth;
-    right: 0;
     top: 0;
-    position: absolute;
 
     .day {
       position: absolute;
@@ -143,14 +166,12 @@ timetable,
     overflow: hidden;
 
     .unit {
-      position: absolute;
+      @include box-absolute-full-width;
       color: $timetableUnitColor;
-      left: 0;
-      right: 0;
 
       .text {
         display: block;
-        position: absolute;;
+        position: absolute;
         width: $timetableUnitsWidth - $timetableUnitMarginRight;
         left: 0;
         text-align: right;
@@ -203,25 +224,21 @@ timetable,
   }
 }
 
+scrollbar, [scrollbar] {
+  @include box-absolute-full;
+  overflow: hidden;
+
+  &.left-column {
+    bottom: 40px;
+  }
+}
+
 .timetables {
   height: 100%;
 
   [class*="span"] {
     position: relative;
     height: 100%;
-  }
-
-  scrollbar, [scrollbar] {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    overflow: hidden;
-
-    &.left-column {
-      bottom: 40px;
-    }
   }
 
   .form-search {
@@ -241,9 +258,41 @@ timetable,
   }
 
   .detail {
+    height: 100%;
+
     .header {
+      height: $timetablesDetailHeaderHeight;
+
       .title {
         margin: 0;
+      }
+
+      .summary {
+        margin-bottom: 0;
+      }
+    }
+
+    .body {
+      top: $timetablesDetailHeaderHeight;
+
+      .wrapper {
+        margin-right: 14px;
+
+        .classes {
+          .table {
+            .class {
+              i.ball {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                line-height: 12px;
+                margin-bottom: 4px;
+                border-radius: 6px;
+                background: red;
+              }
+            }
+          }
+        }
       }
     }
   }
