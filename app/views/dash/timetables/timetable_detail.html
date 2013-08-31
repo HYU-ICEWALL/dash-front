@@ -2,18 +2,37 @@
   <div class="info pull-left">
     <h3 class="title">{{ title }}</h3>
     <p class="text-left text-info summary">
-      <small>
-        {{ '공강 ' + nFreeHours + '시간' }} /
-        {{ '총 ' + totalScore + '학점' }} /
-        {{ '주 ' + nClassDays + '회 수업' }}
-      </small>
+      공강 <strong>{{ nFreeHours }}</strong> 시간 /
+      총 <strong>{{ totalScore }}</strong> 학점 /
+      주 <strong>{{ nClassDays }}</strong>회 수업
     </p>
   </div>
   <div class="pull-right">
-    <button class="btn" type="button">4</button>
-    <button class="btn" type="button">3</button>
-    <button class="btn" type="button">2</button>
-    <button class="btn" type="button">1</button>
+    <div class="btn-group pull-left">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+        <i class="icon-globe"></i> 전체공개 <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href=""><i class="icon-globe"></i> 전체공개</a></li>
+        <li><a tabindex="-1" href=""><i class="icon-lock"></i> 비공개</a></a></li>
+      </ul>
+    </div>
+    <div class="btn-group pull-left">
+      <button class="btn" type="button"><i class="icon-edit"></i></button>
+      <button class="btn" type="button"><i class="icon-trash"></i></button>
+    </div>
+    <div class="btn-group pull-right">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+        <i class="icon-share"></i> <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href=""><i class="icon-facebook"></i> Facebook</a></li>
+        <li><a tabindex="-1" href=""><i class="icon-twitter"></i> Twitter</a></a></li>
+        <li class="divider"></li>
+        <li><a tabindex="-1" href=""><i class="icon-picture"></i> PNG 파일로 저장</a></a></li>
+        <li><a tabindex="-1" href=""><i class="icon-calendar"></i> iCal 포맷으로 저장</a></a></li>
+      </ul>
+    </div>
   </div>
 </div>
 <div scrollbar class="body">
@@ -24,14 +43,14 @@
     <div class="classes">
       <table class="table">
         <tr ng-repeat="c in timetable.classes" class="class">
-          <td width="50px"><i class="ball"></i></td>
-          <td width="70px">{{c.class_no}}</td>
-          <td width="360px">{{c.title}}</td>
-          <td width="80px">{{c.instructor}}</td>
-          <td width="90px">{{c.course_no}}</td>
-          <td width="80px">{{c.score | number: 2}}</td>
-          <td width="80px">{{c.grade}}학년</td>
-          <td width="160px">{{c.major}}</td>
+          <td><i class="ball" ng-style="{backgroundColor: c.color}"></i></td>
+          <td>{{ c.class_no }}</td>
+          <td>{{ c.title }}</td>
+          <td>{{ c.instructor }}</td>
+          <td>{{ c.course_no }}</td>
+          <td>{{ c.score | number: 2 }}</td>
+          <td>{{ c.grade }}학년</td>
+          <td>{{ c.major }}</td>
         </tr>
       </table>
     </div>

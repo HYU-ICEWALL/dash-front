@@ -23,7 +23,7 @@ $timetableDaysBarColor: #ccc;
 $timetableTimeExcludedBackgroundColor: #f0f0f0;
 
 /* timetables detail view */
-$timetablesDetailHeaderHeight: $baseLineHeight * 3;
+$timetablesDetailHeaderHeight: $baseLineHeight * 3 + 4px;
 
 /* mixins */
 @mixin box-absolute-full-width {
@@ -286,9 +286,7 @@ scrollbar, [scrollbar] {
                 width: 12px;
                 height: 12px;
                 line-height: 12px;
-                margin-bottom: 4px;
                 border-radius: 6px;
-                background: red;
               }
             }
           }

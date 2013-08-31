@@ -111,13 +111,15 @@ function (config, StringResource) {
         scope.$watch('display', watchDisplay, true);
 
         var watchClasses = function (classes) {
-          if (!classes) return;
+          if (!classes) {
+            return;
+          }
 
           var times = [];
           var iColor = 0;
 
           angular.forEach(classes, function (c){
-            var color = StringResource.UI.TIMETABLE.COLOR_SWATCH[iColor];
+            var color = c.color || StringResource.UI.TIMETABLE.COLOR_SWATCH[iColor];
 
             angular.forEach(c.time, function (time) {
               times.push({
