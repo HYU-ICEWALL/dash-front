@@ -1,1 +1,17 @@
-this is timetable view
+<div class="days">
+</div>
+<hr class="days_bar">
+<div class="units" ng-style="{height: heightUnits + 'px'}">
+    <div ng-repeat="unit in units" class="unit" ng-style="{top: heightPerHour * ($index + 0.5) + 'px'}" repeat-and-update>
+      <span class="text">{{ unit + ':00' }}</span>
+      <hr class="bar">
+    </div>
+</div>
+<hr class="units_bar"></hr>
+<div class="times">
+  <div ng-repeat="time in times" class="time" ng-style="{width: widthPerDay, left: widthPerDay * time.day_of_week, height: heightPerHour * time.length, top: heightPerHour * (time.hour_of_time - displayTimeStart), backgroundColor: time.color}">
+    <span class="text">{{ time.name }}</span>
+  </div>
+  <div ng-repeat="time in excludedTimes" class="excluded time" ng-style="{width: widthPerDay, left: widthPerDay * time.day_of_week, height: heightPerHour * timeForPeriod, top: heightPerHour * (time.hour_of_time - displayTimeStart)}">
+  </div>
+</div>

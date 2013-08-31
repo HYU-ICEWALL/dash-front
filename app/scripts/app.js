@@ -12,6 +12,7 @@
 'use strict';
 
 angular.module('dashApp', [
+  'ngResource',
   'ui.bootstrap',
   'ui.select2',
   'ui.validate',
@@ -33,6 +34,11 @@ angular.module('dashApp', [
     .state('dash.timetables', {
       url: '/timetables',
       templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('index.html'),
+      resolve: {
+        timetables: ['Timetable', function (Timetable) {
+          return Timetable.query({limit: 20, offset: 0});
+        }]
+      },
       controller: 'TimetablesCtrl'
     });
 });

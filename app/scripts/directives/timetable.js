@@ -5,11 +5,13 @@ angular.module('dashApp')
 .directive('timetable', ['config', 'StringResource',
 function (config, StringResource) {
   var timeForPeriods = function (periods) {
-    return periods * (config.MINUTES_PER_PERIOD + config.MINUTES_BREAK) / 60;
+    return (periods * (config.MINUTES_PER_PERIOD + config.MINUTES_BREAK) -
+      config.MINUTES_BREAK) / 60;
   };
 
   var timeForPeriodNumber = function (periodNumber) {
-    return config.START_TIME + timeForPeriods(periodNumber - 1);
+    return config.START_TIME + timeForPeriods(periodNumber - 1) +
+      config.MINUTES_BREAK / 60;
   };
 
   var divWithClass = function (className) {
@@ -38,7 +40,7 @@ function (config, StringResource) {
   };
 
   return {
-    templateUrl: StringResource.VIEW.urlFor('dash_timetable.html'),
+    templateUrl: StringResource.VIEW.urlFor('timetable.html'),
     restrict: 'EA',
     scope: {
       display: '=',
@@ -60,6 +62,7 @@ function (config, StringResource) {
       dayHeight.remove();
 
       return function postLink(scope, element) {
+        var element = jQuery(element);
         var days = jQuery('.days', element);
         // Math.floor() was used to fix 1px-whitespace bug
         var widthPerDay = Math.floor(days.width() / DAYS_PER_WEEK);
@@ -78,6 +81,8 @@ function (config, StringResource) {
         scope.heightPerPeriod = heightPerPeriod;
 
         var watchDisplay = function (display) {
+          if (!display) return;
+
           var units = [];
 
           var displayTimeStart = Math.floor(timeForPeriodNumber(
@@ -106,6 +111,8 @@ function (config, StringResource) {
         scope.$watch('display', watchDisplay, true);
 
         var watchClasses = function (classes) {
+          if (!classes) return;
+
           var times = [];
           var iColor = 0;
 

@@ -107,7 +107,6 @@ describe('Service: Account', function () {
       }
     );
 
-    debugger;
     httpBackend.flush();
 
     var signInErr = StringResource.ERROR.ACCOUNT.SIGNIN;

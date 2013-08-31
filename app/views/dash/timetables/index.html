@@ -8,16 +8,16 @@
             </div>
         </scrollbar>
         <div class="view-switcher btn-group">
-            <button class="btn"><i class="icon-list"></i></button>
-            <button class="btn"><i class="icon-th-large"></i></button>
-            <button class="btn"><i class="icon-th"></i></button>
+            <button class="btn btn-small" ng-class="{active: viewMode == 'list'}" ng-click="viewMode = 'list'"><i class="icon-list"></i></button>
+            <button class="btn btn-small" ng-class="{active: viewMode == 'gallery'}" ng-click="viewMode = 'gallery'"><i class="icon-th-large"></i></button>
+            <button class="btn btn-small" ng-class="{active: viewMode == 'gallery-extended'}" ng-click="viewMode = 'gallery-extended'"><i class="icon-th"></i></button>
         </div>
     </div>
     <div class="span9">
-        <scrollbar>
-            <div class="timetable" style="margin: 0 20px;">
+        <scrollbar ui-view>
+            <!-- <div class="timetable" style="margin: 0 20px;">
                 <timetable display="timetable.display" classes="timetable.classes" excluded-periods="timetable.excludedPeriods"></timetable>
-            </div>
+            </div> -->
         </scrollbar>
     </div>
 </div>

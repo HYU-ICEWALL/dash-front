@@ -7,9 +7,10 @@ angular.module('dashApp')
     transclude: true,
     restrict: 'EA',
     link: function postLink(scope, element, attrs) {
+      var element = jQuery(element);
+
       element.perfectScrollbar();
       element.bind('update', function () {
-        element.scrollTop(0);
         element.perfectScrollbar('update');
       });
     }
