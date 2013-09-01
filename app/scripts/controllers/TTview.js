@@ -3,29 +3,11 @@
 angular.module('dashApp')
 .controller('TTviewCtrl', [
   '$scope', '$stateParams', 'config',
-  'StringResource', 'MajorInfo', 'Timetable',
+  'StringResource', 'Timetable',
   function ($scope, $stateParams, config,
-    StringResource, MajorInfo, Timetable) {
+    StringResource, Timetable) {
 
     $scope.timetable = Timetable.get({ttId: $stateParams.ttId});
-
-    var majorsInfo = MajorInfo.getMajorsInfo();
-    var majorNameCache = {};
-
-    $scope.getMajorNameByCode = function (code) {
-      if (!!majorNameCache[code]) {
-        return majorNameCache[code];
-      }
-
-      angular.forEach(majorsInfo, function (major) {
-        if (major.code === code) {
-          majorNameCache[code] = major.name;
-          return major.name;
-        }
-      });
-
-      return undefined;
-    };
 
     var calculateTotalScore = function (classes) {
       var totalScore = 0;
@@ -113,6 +95,7 @@ angular.module('dashApp')
         {
           'course_no': 'ITE231',
           'class_no': '10443',
+          'major': 'H3HADD010',
           'title': '컴퓨터구조론',
           'instructor': '이인환',
           'score': 3.00,
@@ -125,6 +108,7 @@ angular.module('dashApp')
         {
           'course_no': 'ITE316',
           'class_no': '10415',
+          'major': 'H3HADD',
           'title': '데이터베이스시스템',
           'instructor': '김상욱',
           'score': 3.00,
@@ -137,6 +121,7 @@ angular.module('dashApp')
         {
           'course_no': 'SYH003',
           'class_no': '10130',
+          'major': 'H3HADD',
           'title': '비즈니스리더십(HELP3)',
           'instructor': null,
           'score': 2.00,
@@ -148,6 +133,7 @@ angular.module('dashApp')
         {
           'course_no': 'CSE406',
           'class_no': '10407',
+          'major': 'H3HADD',
           'title': '소프트웨어공학',
           'instructor': '유인경',
           'score': 3.00,
@@ -160,6 +146,7 @@ angular.module('dashApp')
         {
           'course_no': 'ELE429',
           'class_no': '10400',
+          'major': 'H3HADD',
           'title': '컴파일러',
           'instructor': '임을규',
           'score': 3.00,
@@ -172,6 +159,7 @@ angular.module('dashApp')
         {
           'course_no': 'ENE419',
           'class_no': '10410',
+          'major': 'H3HADD',
           'title': '컴퓨터네트워크',
           'instructor': '조인휘',
           'score': 3.00,
@@ -184,6 +172,7 @@ angular.module('dashApp')
         {
           'course_no': 'GEN606',
           'class_no': '10417',
+          'major': 'H3HADD',
           'title': '특허법의이해',
           'instructor': '장의선',
           'score': 2.00,

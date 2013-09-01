@@ -9,7 +9,7 @@
   </div>
   <div class="pull-right">
     <div class="btn-group pull-left">
-      <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" tooltip="공개 범위 설정" tooltip-placement="left" tooltip-append-to-body="true" type="button">
         <i class="icon-globe"></i> 전체공개 <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
@@ -18,11 +18,11 @@
       </ul>
     </div>
     <div class="btn-group pull-left">
-      <button class="btn" type="button"><i class="icon-edit"></i></button>
-      <button class="btn" type="button"><i class="icon-trash"></i></button>
+      <button class="btn" tooltip="편집" tooltip-placement="bottom" tooltip-append-to-body="true" type="button"><i class="icon-edit"></i></button>
+      <button class="btn" tooltip="삭제" tooltip-placement="bottom" tooltip-append-to-body="true" type="button"><i class="icon-trash"></i></button>
     </div>
     <div class="btn-group pull-right">
-      <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" tooltip="내보내기" tooltip-placement="bottom" tooltip-append-to-body="true" type="button">
         <i class="icon-share"></i> <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
@@ -50,7 +50,7 @@
           <td>{{ c.course_no }}</td>
           <td>{{ c.score | number: 2 }}</td>
           <td>{{ c.grade }}학년</td>
-          <td>{{ c.major }}</td>
+          <td>{{ c.major | majorName }}</td>
         </tr>
       </table>
     </div>

@@ -36,6 +36,15 @@ angular.module('dashApp')
     },
 
     ERROR: {
+      MAJORINFO: {
+        UPDATE_MAJORSINFO: {
+          prefix: 'failed to get majors information',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        }
+      },
+
       ACCOUNT: {
         GET_USERID: {
           prefix: 'failed to retrieve user id: ',
@@ -87,6 +96,7 @@ angular.module('dashApp')
           ]
         }
       },
+
       TIMETABLE: {
         UPDATETIMETABLEINFO: {
           prefix: 'failed to get timetable information: ',
