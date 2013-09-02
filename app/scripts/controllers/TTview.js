@@ -2,10 +2,10 @@
 
 angular.module('dashApp')
 .controller('TTviewCtrl', [
-  '$scope', '$stateParams', 'config',
-  'StringResource', 'Timetable',
-  function ($scope, $stateParams, config,
-    StringResource, Timetable) {
+  '$scope', '$stateParams', '$dialog',
+  'config', 'StringResource', 'Timetable',
+  function ($scope, $stateParams, $dialog,
+    config, StringResource, Timetable) {
 
     $scope.timetable = Timetable.get({ttId: $stateParams.ttId});
 
@@ -85,6 +85,43 @@ angular.module('dashApp')
       $scope.nFreeHours = calculateFreeHours(timeForDay);
       timetable.classes = colorClasses(classes);
     });
+
+    var confirmDeleteDialog = $dialog.dialog({
+      templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('confirm_delete.html'),
+      resolve: {
+        title: function () { return $scope.timetable.name; }
+      },
+      controller: ['$scope', '$filter', 'dialog', 'title',
+      function ($scope, $filter, dialog, title) {
+        $scope.koreanEulLeul = $filter('koreanEulLeul');
+        $scope.title = title;
+
+        $scope.cancel = function () {
+          dialog.close('cancel');
+        };
+
+        $scope.delete = function () {
+          dialog.close('delete');
+        };
+      }]
+    });
+
+    $scope.delete = function () {
+      confirmDeleteDialog.open()
+      .then(function (result) {
+        if (result === 'delete') {
+          Timetable.delete(
+            {ttId: $stateParams.ttId},
+            function () {
+              $scope.emit('timetableDeleted');
+            },
+            function () {
+              $scope.emit('timetableDeleteFailed');
+            }
+          );
+        }
+      });
+    };
 
     $scope.timetable = {
       'id': '123',

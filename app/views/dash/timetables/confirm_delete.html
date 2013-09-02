@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <h3>시간표 삭제 확인</h3>
+</div>
+<div class="modal-body">
+  정말로 시간표 <strong>{{ title }}</strong>{{ title | koreanEulLeul:false }} 삭제하시겠습니까?
+</div>
+<div class="modal-footer">
+  <button class="btn" type="button" ng-click="cancel()">취소</button>
+  <button class="btn btn-danger" type="button" ng-click="delete()">삭제</button>
+</div>
