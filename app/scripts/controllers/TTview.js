@@ -113,10 +113,10 @@ angular.module('dashApp')
           Timetable.delete(
             {ttId: $stateParams.ttId},
             function () {
-              $scope.emit('timetableDeleted');
+              $scope.$emit('timetableDeleted');
             },
             function () {
-              $scope.emit('timetableDeleteFailed');
+              $scope.$emit('timetableDeleteFailed');
             }
           );
         }

@@ -233,6 +233,15 @@ scrollbar, [scrollbar] {
   }
 }
 
+[flash-message] {
+  $flashAlertWidth: $gridColumnWidth * 5 + $gridGutterWidth * 4;
+  position: fixed;
+  top: $navbarHeight + 10px;
+  width: $flashAlertWidth;
+  left: 50%;
+  margin-left: -$flashAlertWidth / 2;
+}
+
 .timetables {
   height: 100%;
 
@@ -296,7 +305,7 @@ scrollbar, [scrollbar] {
   }
 }
 
-.detail_table {
+/* .detail_table {
   top: 50%; left: 50%;
   margin: 0; padding: 0; line-height: 21px;
   border-top: 1px solid #cccccc;
@@ -304,4 +313,4 @@ scrollbar, [scrollbar] {
   border-collapse: collapse;
   border-bottom: 1px solid #cccccc;
   border-right: 1px solid #cccccc;
-}
+} */
