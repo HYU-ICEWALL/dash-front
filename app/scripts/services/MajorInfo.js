@@ -22,6 +22,10 @@ function ($http, $q, StringResource, Utils) {
       } else {
         return $q.when(majorsInfo);
       }
+    },
+
+    tempgetMajorsInfo : function() {
+      return majorsInfo;
     }
   };
 }]);

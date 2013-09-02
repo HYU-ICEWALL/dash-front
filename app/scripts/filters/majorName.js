@@ -4,6 +4,7 @@ angular.module('dashApp')
 .filter('majorName', ['$rootScope', 'MajorInfo',
 function ($rootScope, MajorInfo) {
   var majorsInfo;
+
   MajorInfo.getMajorsInfo().then(function (mInfo) {
     majorsInfo = mInfo;
   });
