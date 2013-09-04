@@ -1,0 +1,8 @@
+<ul class="list nav nav-tabs nav-stacked">
+    <li ng-repeat="timetable in timetables">
+        <a ng-href="#/dash/timetables/{{timetable.id}}">
+            <span class="name">{{ timetable.name }}</span>
+            <span class="date"><i class="icon-time"></i>{{ timetable.created_time | date:'medium' }}</span>
+        </a>
+    </li>
+</ul>

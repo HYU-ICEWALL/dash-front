@@ -12,22 +12,38 @@
 'use strict';
 
 angular.module('dashApp', [
+  'ngResource',
   'ui.bootstrap',
   'ui.select2',
   'ui.validate',
   'ui.state'
 ])
-.config(function ($stateProvider, $urlRouterProvider) {
-$urlRouterProvider.otherwise('/');
-$stateProvider
-  .state('main', {
-    url: '/',
-    templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
-  })
-  .state('dash', {
-    url: '/dash/',
-    templateUrl: 'views/dash.html',
-    controller: 'DashboardCtrl'
-  });
+.config(function ($stateProvider, $urlRouterProvider, StringResource) {
+  $urlRouterProvider.otherwise('/');
+  $stateProvider
+    .state('main', {
+      url: '/',
+      templateUrl: StringResource.VIEW.urlFor('main.html'),
+      controller: 'MainCtrl'
+    })
+    .state('dash', {
+      url: '/dash',
+      templateUrl: StringResource.VIEW.urlFor('dash.html'),
+      controller: 'DashboardCtrl'
+    })
+      .state('dash.timetables', {
+        url: '/timetables',
+        templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('index.html'),
+        resolve: {
+          timetables: ['Timetable', function (Timetable) {
+            return Timetable.query({limit: 20, offset: 0});
+          }]
+        },
+        controller: 'TimetablesCtrl'
+      })
+        .state('dash.timetables.detail', {
+          url: '/:ttId',
+          templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('timetable_detail.html'),
+          controller: 'TTviewCtrl'
+        });
 });

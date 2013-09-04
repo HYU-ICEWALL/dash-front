@@ -3,7 +3,46 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
 @import "bootstrap-sass/lib/bootstrap";
 
-/* Put your CSS here */
+/* variables */
+
+/* body */
+$bodyPaddingTop: 20px;
+$bodyPaddingBottom: 20px;
+
+/* timetable directive */
+$timetableHeightPerHour: 60px;
+$timetableUnitsWidth: 60px;
+$timetableUnitMarginRight: 4px;
+$timetableUnitColor: #ccc;
+$timetableUnitFontSize: 12px;
+$timetableUnitBarColor: #eee;
+$timetableUnitsBarColor: #ccc;
+$timetableDaysHeight: 30px;
+$timetableDayColor: #ccc;
+$timetableDaysBarColor: #ccc;
+$timetableTimeExcludedBackgroundColor: #f0f0f0;
+
+/* timetables detail view */
+$timetablesDetailHeaderHeight: $baseLineHeight * 3 + 4px;
+
+/* mixins */
+@mixin box-absolute-full-width {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+@mixin box-absolute-full-height {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+@mixin box-absolute-full {
+  @include box-absolute-full-width;
+  @include box-absolute-full-height;
+}
+
 html, body {
   margin: 20px;
 }
@@ -12,6 +51,14 @@ body {
     background: #fafafa;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
+    padding-top: $bodyPaddingTop;
+    padding-bottom: $bodyPaddingBottom;
+}
+
+.dash.container {
+  position: absolute;
+  top: $navbarHeight + $bodyPaddingTop;
+  bottom: $bodyPaddingBottom;
 }
 
 .hero-unit {
@@ -53,3 +100,217 @@ body {
     }
   }
 }
+
+@mixin timetable-bar-base {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  border: 0;
+  border-bottom: 1px solid;
+}
+
+@mixin timetable-horizontal-bar-base {
+  @include timetable-bar-base;
+  height: 0;
+  left: 0;
+  right: 0;
+}
+
+@mixin timetable-vertical-bar-base {
+  @include timetable-bar-base;
+  width: 0;
+  top: 0;
+  bottom: 0;
+}
+
+timetable,
+[timetable] {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 100px;
+  overflow: hidden;
+
+  .cell {
+    height: $timetableHeightPerHour;
+  }
+
+  .days {
+    @include box-absolute-full-width;
+    left: $timetableUnitsWidth;
+    top: 0;
+
+    .day {
+      position: absolute;
+      color: $timetableDayColor;
+      font-weight: lighter;
+      font-size: 12px;
+      line-height: 1.0;
+
+      &.height {
+        height: $timetableDaysHeight;
+      }
+    }
+  }
+
+  .days_bar {
+    @include timetable-horizontal-bar-base;
+    top: $timetableDaysHeight;
+    border-bottom-color: $timetableDaysBarColor;
+  }
+
+  .units {
+    width: 100%;
+    top: $timetableDaysHeight;
+    position: relative;
+    overflow: hidden;
+
+    .unit {
+      @include box-absolute-full-width;
+      color: $timetableUnitColor;
+
+      .text {
+        display: block;
+        position: absolute;
+        width: $timetableUnitsWidth - $timetableUnitMarginRight;
+        left: 0;
+        text-align: right;
+        color: $timetableUnitColor;
+        font-weight: lighter;
+        font-size: $timetableUnitFontSize;
+        line-height: 1.0;
+        margin-top: -$timetableUnitFontSize / 2;
+      }
+
+      .bar {
+        @include timetable-horizontal-bar-base;
+        top: 0;
+        left: $timetableUnitsWidth;
+        border-bottom-color: $timetableUnitBarColor;
+      }
+    }
+  }
+
+  .units_bar {
+    display: none;
+    @include timetable-vertical-bar-base;
+    top: $timetableDaysHeight;
+    left: $timetableUnitsWidth;
+    border-right-color: $timetableUnitsBarColor;
+  }
+
+  .times {
+    left: $timetableUnitsWidth;
+    top: $timetableDaysHeight + $timetableHeightPerHour / 2;
+    position: absolute;
+
+    .time {
+      border-radius: 4px;
+      position: absolute;
+      display: table;
+      text-align: center;
+
+      &.excluded {
+        background: $timetableTimeExcludedBackgroundColor;
+      }
+
+      .text {
+        display: table-cell;
+        vertical-align: middle;
+        color: #fff;
+        //text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+}
+
+scrollbar, [scrollbar] {
+  @include box-absolute-full;
+  overflow: hidden;
+
+  &.left-column {
+    bottom: 40px;
+  }
+}
+
+[flash-message] {
+  $flashAlertWidth: $gridColumnWidth * 5 + $gridGutterWidth * 4;
+  position: fixed;
+  top: $navbarHeight + 10px;
+  width: $flashAlertWidth;
+  left: 50%;
+  margin-left: -$flashAlertWidth / 2;
+}
+
+.timetables {
+  height: 100%;
+
+  [class*="span"] {
+    position: relative;
+    height: 100%;
+  }
+
+  .form-search {
+    .search-query {
+      width: 190px;
+    }
+  }
+
+  .view-switcher {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  .list {
+    margin-bottom: 0;
+  }
+
+  .detail {
+    height: 100%;
+
+    .header {
+      height: $timetablesDetailHeaderHeight;
+
+      .title {
+        margin: 0;
+      }
+
+      .summary {
+        margin-bottom: 0;
+      }
+    }
+
+    .body {
+      top: $timetablesDetailHeaderHeight;
+
+      .wrapper {
+        margin-right: 14px;
+
+        .classes {
+          .table {
+            .class {
+              i.ball {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                line-height: 12px;
+                border-radius: 6px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* .detail_table {
+  top: 50%; left: 50%;
+  margin: 0; padding: 0; line-height: 21px;
+  border-top: 1px solid #cccccc;
+  border-left: 1px solid #cccccc;
+  border-collapse: collapse;
+  border-bottom: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+} */

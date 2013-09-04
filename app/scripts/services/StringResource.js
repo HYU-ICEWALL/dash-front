@@ -1,8 +1,50 @@
+/* jshint -W106 */
 'use strict';
 
 angular.module('dashApp')
-  .constant('StringResource', {
+.constant('StringResource', (function () {
+  var pathStatic = ''; //'static/';
+  var concat = function () {
+    var res = '';
+
+    angular.forEach(arguments, function(arg){
+      res += arg;
+    });
+
+    return res;
+  };
+
+  var getUrlFor = function (path) {
+    return function (filename) {
+      return concat(pathStatic, path, filename);
+    };
+  };
+
+  return {
+    VIEW: {
+      DASH: {
+        TIMETABLES: {
+          LEFT_COLUMN: {
+            urlFor: getUrlFor('views/dash/timetables/left-column/')
+          },
+
+          urlFor: getUrlFor('views/dash/timetables/')
+        }
+      },
+
+      urlFor: getUrlFor('views/')
+    },
+
     ERROR: {
+      MAJORINFO: {
+        UPDATE_MAJORSINFO: {
+          prefix: 'failed to get majors information',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        }
+      },
+
       ACCOUNT: {
         GET_USERID: {
           prefix: 'failed to retrieve user id: ',
@@ -53,6 +95,43 @@ angular.module('dashApp')
             { code: 404, reason: 'can\'t find the account with such email address'}
           ]
         }
+      },
+
+      TIMETABLE: {
+        UPDATETIMETABLEINFO: {
+          prefix: 'failed to get timetable information: ',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        ADDTIMETABLE: {
+          prefix: 'faild to add timetable',
+          reasons: [
+            { code: 404, reason: ''}
+          ]
+        },
+
+        READTIMETABLEBYID: {
+          prefix: 'failed to read timetable by id',
+          reasons: [
+            { code: 404, reason: 'invalid timetable id' }
+          ]
+        },
+
+        DELETETIMETABLE: {
+          prefix: 'failed to delete timetable',
+          resons: [
+            { code: 404, reson: 'invalid timetable code' }
+          ]
+        },
+
+        EDITTIMETABLE: {
+          prefix: 'failed to edit timetable',
+          reasons: [
+            { code: 404, reason: 'invalid timetable code'}
+          ]
+        }
       }
     },
 
@@ -76,6 +155,11 @@ angular.module('dashApp')
         }
       },
 
+      TIMETABLE: {
+        DAYS_OF_WEEK: ['월', '화', '수', '목', '금', '토', '일'],
+        COLOR_SWATCH: ['#d8e200', '#f1bdcc', '#e4d198', '#68c7c1', '#86bce3', '#fdb900', '#f08162']
+      },
+
       HTTP_ERROR: {
         PREFIX: '오류가 발생했습니다. HTTP 응답 코드는 ',
         SUFFIX: '입니다.'
@@ -89,4 +173,5 @@ angular.module('dashApp')
         redirect_uri: 'http://localhost:8080/fb_login'
       }
     }
-  });
+  };
+})());

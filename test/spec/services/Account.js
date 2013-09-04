@@ -37,7 +37,7 @@ describe('Service: Account', function () {
   }));
 
   it('should get the ID of user if the user has signed in', function () {
-    httpBackend.expectGET('/me')
+    httpBackend.expectGET('/api/users/me')
       .respond(200, {"id": 1});
 
     var result;
@@ -52,7 +52,7 @@ describe('Service: Account', function () {
   });
 
   it('should not get the ID of user if the user has not signed in', function () {
-    httpBackend.expectGET('/me')
+    httpBackend.expectGET('/api/users/me')
       .respond(404);
 
     var reason;
@@ -69,7 +69,7 @@ describe('Service: Account', function () {
   });
 
   it('should return the user information if correct credential information is given', function () {
-    httpBackend.expectPOST('/login', 'username=user&password=1234')
+    httpBackend.expectPOST('/api/login', 'username=user&password=1234')
       .respond(200, {"id": 1});
 
     var result;
@@ -81,17 +81,17 @@ describe('Service: Account', function () {
       result = res;
     });
 
-    httpBackend.expectGET('/member/1')
-      .respond(200, {"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    httpBackend.expectGET('/api/users/me')
+      .respond(200, {"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
 
     httpBackend.flush();
 
     expect(result).toBeTruthy();
-    expect(Account.getUserInfo()).toEqualData({"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    expect(Account.getUserInfo()).toEqualData({"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
   });
 
   it('should reject if incorrect credential information is given', function () {
-    httpBackend.expectPOST('/login', 'username=user&password=4321')
+    httpBackend.expectPOST('/api/login', 'username=user&password=4321')
       .respond(401);
 
     var result;
@@ -107,7 +107,6 @@ describe('Service: Account', function () {
       }
     );
 
-    debugger;
     httpBackend.flush();
 
     var signInErr = StringResource.ERROR.ACCOUNT.SIGNIN;
@@ -117,18 +116,18 @@ describe('Service: Account', function () {
   });
 
   it('should return the new user information if valid form data is passed', function () {
-    httpBackend.expectPOST('/member', {
-      email: 'somebody@example.com',
-      password: '1234',
-      major: 'H3HADD'
+    httpBackend.expectPOST('/api/users', {
+      "email": "somebody@example.com",
+      "password": "1234",
+      "major": "H3HADD"
     })
     .respond(200, {"id": 1});
 
     var result;
     var promise = Account.signUp({
-      email: 'somebody@example.com',
-      password: '1234',
-      major: 'H3HADD'
+      "email": "somebody@example.com",
+      "password": "1234",
+      "major": "H3HADD"
     });
 
     expect(Account.getUserInfo()).toBeNull();
@@ -137,20 +136,20 @@ describe('Service: Account', function () {
       result = res;
     });
 
-    httpBackend.expectGET('/member/1')
-      .respond(200, {"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    httpBackend.expectGET('/api/users/me')
+      .respond(200, {"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
 
     httpBackend.flush();
 
     expect(result).toBeTruthy();
-    expect(Account.getUserInfo()).toEqualData({"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    expect(Account.getUserInfo()).toEqualData({"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
   });
 
   it('should edit user\s info', function(){
-    httpBackend.expectPOST('/login', 'username=user&password=1234')
+    httpBackend.expectPOST('/api/login', 'username=user&password=1234')
       .respond(200, {"id": 1});
-    httpBackend.expectGET('/member/1')
-      .respond(200, {"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    httpBackend.expectGET('/api/users/me')
+      .respond(200, {"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
 
     var promise = Account.signIn('user', '1234');
     var result;
@@ -163,13 +162,13 @@ describe('Service: Account', function () {
 
     expect(result).toBeTruthy();
 
-    httpBackend.expectPUT('/member/1',{
+    httpBackend.expectPUT('/api/users/me',{
       major : 'example2',
       email : 'cde@example.kr',
       password : 'newpassword',
     }).respond(200);
-    httpBackend.expectGET('/member/1')
-    .respond(200, {"major": "example2", "email": "cde@example.kr", "fb_id": "fbid"});
+    httpBackend.expectGET('/api/users/me')
+    .respond(200, {"id": "1", "major": "example2", "email": "cde@example.kr", "fb_id": "fbid"});
 
     promise = Account.editUserInfo({
       major : 'example2',
@@ -185,15 +184,15 @@ describe('Service: Account', function () {
 
     expect(result).toBeTruthy();
     expect(Account.getUserInfo()).toEqualData({
-      "major": "example2", "email": "cde@example.kr", "fb_id": "fbid"
+      "id": "1", "major": "example2", "email": "cde@example.kr", "fb_id": "fbid"
     });
   });
 
   it('should delete account when the user passed correct password', function () {
-    httpBackend.expectPOST('/login', 'username=user&password=1234')
+    httpBackend.expectPOST('/api/login', 'username=user&password=1234')
       .respond(200, {"id": 1});
-    httpBackend.expectGET('/member/1')
-      .respond(200, {"major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
+    httpBackend.expectGET('/api/users/me')
+      .respond(200, {"id": "1", "major": "H3HADD", "email": "somebody@example.com", "fb_id": "fbid"});
 
     var promise = Account.signIn('user', '1234');
     var result;
@@ -206,7 +205,7 @@ describe('Service: Account', function () {
 
     expect(result).toBeTruthy();
 
-    httpBackend.expectPOST('/member/1/delete').respond(204);
+    httpBackend.expect('DELETE', '/api/users/me', 'password=1234').respond(204);
     promise = Account.deleteAccount({ password: '1234'});
     promise.then(function (res) {
       result = res;
@@ -221,7 +220,7 @@ describe('Service: Account', function () {
     var c = $.param({
       email : 'abc@example.com'
     });
-    httpBackend.expectPOST('/find_pw',c).respond(200);
+    httpBackend.expectPOST('/api/reset_password',c).respond(200);
     var promise = Account.findPw({ email: 'abc@example.com'});
     var result;
     promise.then(function (res) {
@@ -237,7 +236,7 @@ describe('Service: Account', function () {
     var c = $.param({
       email : 'def@example.com'
     });
-    httpBackend.expectPOST('/find_pw',c).respond(404);
+    httpBackend.expectPOST('/api/reset_password',c).respond(404);
     var promise = Account.findPw({ email: 'def@example.com'});
     var result;
     promise.then(function (res) {

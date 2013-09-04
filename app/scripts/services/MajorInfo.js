@@ -1,38 +1,31 @@
 'use strict';
 
 angular.module('dashApp')
-  .factory('MajorInfo', ['$http', '$q', function ($http, $q){
+.factory('MajorInfo', ['$http', '$q', 'StringResource', 'Utils',
+function ($http, $q, StringResource, Utils) {
+  var ERROR = StringResource.ERROR;
+  var majorsInfo;
 
-  	var majorsInfo;
+  function updatesMajorsInfo() {
+    return $http.get('/api/majors', {responseType: 'json'})
+    .then(function (response) {
+      majorsInfo = response.data;
+      return majorsInfo;
+    },
+    Utils.handlerHttpError(ERROR.MAJORINFO.UPDATE_MAJORSINFO));
+  }
 
-  	function updatesMajorsInfo() {
-  		var deferred = $q.defer();
+  return {
+    getMajorsInfo : function () {
+      if (typeof majorsInfo === 'undefined') {
+        return updatesMajorsInfo();
+      } else {
+        return $q.when(majorsInfo);
+      }
+    },
 
-  		$http.get('/major', {responseType:'json'})
-  		.success(function (data){
-  			majorsInfo = data;
-  			deferred.resolve(true);
-  		});
-
-  		return deferred.promise;
-  	}
-  	return{
-  		getMajorsInfo : function (){
-  			var deferred = $q.defer();
-
-  			function cbResolveInfo() {
-  				deferred.resolve(majorsInfo);
-  			}
-
-  			if (majorsInfo == undefined) {
-	  			var promise = updatesMajorsInfo();
-	  			promise.then(cbResolveInfo);
-	  		} else {
-	  			cbResolveInfo();
-	  		}
-
-  			return deferred.promise;
-  		}
-  	};
-  	
-  }]);
+    tempgetMajorsInfo : function() {
+      return majorsInfo;
+    }
+  };
+}]);
