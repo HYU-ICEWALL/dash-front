@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('dashApp')
-  .controller('NavBarCtrl', ['$scope', 'config', '$dialog',
-    function ($scope, config, $dialog) {
+  .controller('NavBarCtrl', ['$scope', 'StringResource', 'config', '$dialog',
+    function ($scope, StringResource, config, $dialog) {
       $scope.items = [
         { id: 'create', name: '시간표 생성' },
         { id: 'timetable', name: '시간표 관리' }
@@ -13,12 +13,12 @@ angular.module('dashApp')
       };
 
       var userinfoDialog = $dialog.dialog({
-        templateUrl: 'views/userinfo_form.html',
+        templateUrl: StringResource.VIEW.urlFor('userinfo_form.html'),
         controller: 'EditUserinfoCtrl',
         resolve: {
-          majors: function (MajorInfo) {
+          majors: ['MajorInfo', function (MajorInfo) {
             return MajorInfo.getMajorsInfo();
-          }
+          }]
         }
       });
 

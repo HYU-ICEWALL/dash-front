@@ -1,27 +1,37 @@
 // Karma configuration
 
 // base path, that will be used to resolve files and exclude
-basePath = '';
+basePath = 'app';
 
 // list of files / patterns to load in the browser
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'app/bower_components/angular/angular.js',
-  'app/bower_components/angular-mocks/angular-mocks.js',
-  'app/bower_components/angular-bootstrap/ui-bootstrap.js',
-  'app/bower_components/jquery/jquery.js',
-  'app/bower_components/angular-ui-select2/src/select2.js',
-  'app/bower_components/select2/select2.js',
-  'app/bower_components/angular-ui-router/release/angular-ui-router.min.js',
-  'app/scripts/*.js',
-  'app/scripts/**/*.js',
-  'test/mock/**/*.js',
-  'test/spec/**/*.js'
+  'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
+  'bower_components/angular/angular.js',
+  'bower_components/angular-resource/angular-resource.js',
+  'bower_components/angular-mocks/angular-mocks.js',
+  'bower_components/angular-bootstrap/ui-bootstrap.js',
+  'bower_components/jquery/jquery.js',
+  'bower_components/angular-ui-select2/src/select2.js',
+  'bower_components/select2/select2.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+  'bower_components/perfect-scrollbar/src/jquery.mousewheel.js',
+  'bower_components/perfect-scrollbar/src/perfect-scrollbar.js',
+  'scripts/*.js',
+  'scripts/**/*.js',
+  'views/**/*.html',
+  '../test/mock/**/*.js',
+  '../test/spec/**/*.js'
 ];
 
 // list of files to exclude
 exclude = [];
+
+// preprocessors
+preprocessors = {
+  'views/**/*.html': 'html2js'
+};
 
 // test results reporter to use
 // possible values: dots || progress || growl

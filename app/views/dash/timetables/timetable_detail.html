@@ -1,0 +1,58 @@
+<div class="header clearfix">
+  <div class="info pull-left">
+    <h3 class="title">{{ title }}</h3>
+    <p class="text-left text-info summary">
+      공강 <strong>{{ nFreeHours }}</strong> 시간 /
+      총 <strong>{{ totalScore }}</strong> 학점 /
+      주 <strong>{{ nClassDays }}</strong>회 수업
+    </p>
+  </div>
+  <div class="pull-right">
+    <div class="btn-group pull-left">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" tooltip="공개 범위 설정" tooltip-placement="left" tooltip-append-to-body="true" type="button">
+        <i class="icon-globe icon-fixed-width"></i> 전체공개 <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href=""><i class="icon-globe icon-fixed-width"></i> 전체공개</a></li>
+        <li><a tabindex="-1" href=""><i class="icon-lock icon-fixed-width"></i> 비공개</a></a></li>
+      </ul>
+    </div>
+    <div class="btn-group pull-left">
+      <button class="btn" tooltip="편집" tooltip-placement="bottom" tooltip-append-to-body="true" type="button"><i class="icon-edit icon-fixed-width"></i></button>
+      <button class="btn" tooltip="삭제" tooltip-placement="bottom" tooltip-append-to-body="true" type="button" ng-click="delete()"><i class="icon-trash icon-fixed-width"></i></button>
+    </div>
+    <div class="btn-group pull-right">
+      <button class="btn dropdown-toggle" data-toggle="dropdown" tooltip="내보내기" tooltip-placement="right" tooltip-append-to-body="true" type="button">
+        <i class="icon-share icon-fixed-width"></i> <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href=""><i class="icon-facebook icon-fixed-width"></i> Facebook</a></li>
+        <li><a tabindex="-1" href=""><i class="icon-twitter icon-fixed-width"></i> Twitter</a></a></li>
+        <li class="divider"></li>
+        <li><a tabindex="-1" href=""><i class="icon-picture icon-fixed-width"></i> PNG 파일로 저장</a></a></li>
+        <li><a tabindex="-1" href=""><i class="icon-calendar icon-fixed-width"></i> iCal 포맷으로 저장</a></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div scrollbar class="body">
+  <div class="wrapper">
+    <div class="timetable">
+      <timetable classes="timetable.classes" excluded-periods="timetable.excludedPeriods"></timetable>
+    </div>
+    <div class="classes">
+      <table class="table">
+        <tr ng-repeat="c in timetable.classes" class="class">
+          <td><i class="ball" ng-style="{backgroundColor: c.color}"></i></td>
+          <td>{{ c.class_no }}</td>
+          <td>{{ c.title }}</td>
+          <td>{{ c.instructor }}</td>
+          <td>{{ c.course_no }}</td>
+          <td>{{ c.score | number: 2 }}</td>
+          <td>{{ c.grade }}학년</td>
+          <td>{{ c.title }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

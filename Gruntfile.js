@@ -46,7 +46,7 @@ module.exports = function (grunt) {
           livereload: LIVERELOAD_PORT
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/{,*/,views/**/}*.html',
           '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -289,6 +289,10 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      },
+      start: {
+        configFile: 'karma.conf.js',
+        singleRun: false
       }
     },
     cdnify: {
@@ -323,11 +327,11 @@ module.exports = function (grunt) {
           groupIcon: 'icon-beer',
           sections: [
             {
-              id: "userinfo",
-              title: "User Information",
+              id: 'userinfo',
+              title: 'User Information',
               showSource: false,
               scripts: [
-                "<%= yeoman.app %>/scripts"
+                '<%= yeoman.app %>/scripts'
               ]
             }
           ]
@@ -352,12 +356,26 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
+  grunt.registerTask('test', function (target) {
+    grunt.task.run([
+      'clean:server',
+      'concurrent:test',
+      'connect:test'
+    ]);
+
+    if (target === 'start') {
+      grunt.task.run(['karma:start']);
+    } else {
+      grunt.task.run(['karma:unit']);
+    }
+  });
+
+/*  grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
     'connect:test',
     'karma'
-  ]);
+  ]);*/
 
   grunt.registerTask('build', [
     'clean:dist',
