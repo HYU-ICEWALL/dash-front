@@ -5,15 +5,6 @@ describe('Controller: SignupCtrl', function () {
   // load the controller's module
   beforeEach(module('dashApp'));
 
-  // add a matcher
-  beforeEach(function(){
-    this.addMatchers({
-      toEqualData: function(expected) {
-        return angular.equals(this.actual, expected);
-      }
-    });
-  });
-
   var SignupCtrl,
     scope,
     Account,

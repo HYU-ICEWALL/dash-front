@@ -177,15 +177,6 @@ describe('Controller: TimetablesCtrl', function () {
       }
     ];
 
-  // add a matcher
-  beforeEach(function(){
-    this.addMatchers({
-      toEqualData: function(expected) {
-        return angular.equals(this.actual, expected);
-      }
-    });
-  });
-
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $resource, _config_, _StringResource_) {
     scope = $rootScope.$new();

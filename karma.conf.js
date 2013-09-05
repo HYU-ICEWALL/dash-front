@@ -21,7 +21,7 @@ files = [
   'scripts/*.js',
   'scripts/**/*.js',
   'views/**/*.html',
-  '../test/mock/**/*.js',
+  '../test/matchers.js',
   '../test/spec/**/*.js'
 ];
 
