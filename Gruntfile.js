@@ -323,14 +323,14 @@ module.exports = function (grunt) {
       docular_webapp_target: "docs",
       groups: [
         {
-          groupTitle: 'Internal API',
-          groupId: 'internal',
-          groupIcon: 'icon-beer',
+          groupTitle: 'Dash',
+          groupId: 'dash',
+          groupIcon: 'icon-calendar',
           sections: [
             {
-              id: 'userinfo',
-              title: 'User Information',
-              showSource: false,
+              id: 'internal',
+              title: 'Internal API',
+              showSource: true,
               scripts: [
                 '<%= yeoman.app %>/scripts'
               ]
