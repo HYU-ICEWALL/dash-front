@@ -5,15 +5,6 @@ describe('Service: MajorInfo', function () {
   // load the service's module
   beforeEach(module('dashApp'));
 
-  // add a matcher
-  beforeEach(function(){
-    this.addMatchers({
-      toEqualData: function(expected) {
-        return angular.equals(this.actual, expected);
-      }
-    });
-  });
-
   // instantiate service
   var MajorInfo, httpBackend;
   beforeEach(inject(function (_MajorInfo_, $httpBackend) {

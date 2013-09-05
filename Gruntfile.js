@@ -320,16 +320,17 @@ module.exports = function (grunt) {
       }
     },
     docular: {
+      docular_webapp_target: "docs",
       groups: [
         {
-          groupTitle: 'Internal API',
-          groupId: 'internal',
-          groupIcon: 'icon-beer',
+          groupTitle: 'Dash',
+          groupId: 'dash',
+          groupIcon: 'icon-calendar',
           sections: [
             {
-              id: 'userinfo',
-              title: 'User Information',
-              showSource: false,
+              id: 'internal',
+              title: 'Internal API',
+              showSource: true,
               scripts: [
                 '<%= yeoman.app %>/scripts'
               ]
@@ -370,14 +371,8 @@ module.exports = function (grunt) {
     }
   });
 
-/*  grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'connect:test',
-    'karma'
-  ]);*/
-
   grunt.registerTask('build', [
+    'docular',
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
@@ -396,9 +391,4 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
-
-  /*grunt.registerTask('ngdoc', [
-    'clean:ngdoc',
-    'ngdoc:internal'
-  ]);*/
 };
