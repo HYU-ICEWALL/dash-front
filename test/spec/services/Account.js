@@ -18,15 +18,6 @@ describe('Service: Account', function () {
   }));
   */
 
-  // add a matcher
-  beforeEach(function(){
-    this.addMatchers({
-      toEqualData: function(expected) {
-        return angular.equals(this.actual, expected);
-      }
-    });
-  });
-
   // instantiate service
   var Account, httpBackend, rootScope, StringResource;
   beforeEach(inject(function (_Account_, _$httpBackend_, $rootScope, _StringResource_) {
