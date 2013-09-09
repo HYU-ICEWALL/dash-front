@@ -9,21 +9,37 @@ describe('Controller: CreateCtrl', function () {
   var CreateCtrl,
     scope;
 
-  var MajorInfo = function () {
-    var majorsInfo = [
-      {name: '컴퓨터공학부', code: 'H3HADD'},
-      {name: '컴퓨터전공', code: 'H3HADDA'},
-      {name: '소프트웨어전공', code: 'H3HADDB'},
-      {name: '융합전자공학부', code: 'H3HADG'}
-    ];
+  var majorsInfo = [
+    {name: '컴퓨터공학부', code: 'H3HADD'},
+    {name: '컴퓨터전공', code: 'H3HADDA'},
+    {name: '소프트웨어전공', code: 'H3HADDB'},
+    {name: '융합전자공학부', code: 'H3HADG'}
+  ];
 
-    return {
-      getMajorsInfo: $q.when(majorsInfo)
+  var MajorInfo = {
+    getMajorsInfo: function () {return $q.when(majorsInfo);},
+    getNameByCode: function (code) {
+      var deferred = $q.defer();
+      var hasFoundName = false;
+
+      angular.forEach(majorsInfo, function (major) {
+        if (major.code === code) {
+          deferred.resolve(major.name);
+          hasFoundName = true;
+          return false;
+        }
+      });
+
+      if (!hasFoundName) {
+        deferred.reject('cannot find name for major code ' + code);
+      }
+
+      return deferred.promise;
     }
   };
 
-  var Class = function () {
-    this.query = function (parameters, success, error) {
+  var Class = {
+    query: function (parameters, success, error) {
       var result;
 
       if (parameters && parameters.name && parameters.name === '미분적분학') {
@@ -125,11 +141,13 @@ describe('Controller: CreateCtrl', function () {
         }
       }
 
-      success(result);
-      return $q.when(result);
-    };
+      $timeout(function () {
+        success(result);
+      }, 0);
+      return result;
+    },
 
-    this.get = function (parameters, success, error) {
+    get: function (parameters, success, error) {
       var classNo = parameters.classNo;
       var result;
 
@@ -137,14 +155,14 @@ describe('Controller: CreateCtrl', function () {
       case '13056':
         result = {
           class_no: '13056',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADD',
           time: [
             {start_time: 211, end_time: 213, room: 'H05-0103'},
             {start_time: 514, end_time: 516, room: 'H05-0103'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: null,
           category: '기초필수'
@@ -154,14 +172,14 @@ describe('Controller: CreateCtrl', function () {
       case '13057':
         result = {
           class_no: '13057',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADD',
           time: [
             {start_time: 211, end_time: 213, room: 'H05-0202'},
             {start_time: 514, end_time: 516, room: 'H05-0202'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: '신교일',
           category: '기초필수'
@@ -171,14 +189,14 @@ describe('Controller: CreateCtrl', function () {
       case '10455':
         result = {
           class_no: '10455',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADD',
           time: [
             {start_time: 211, end_time: 213, room: 'H05-0203'},
             {start_time: 514, end_time: 516, room: 'H05-0203'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: '평인수',
           category: '기초필수'
@@ -188,14 +206,14 @@ describe('Controller: CreateCtrl', function () {
       case '10303':
         result = {
           class_no: '10303',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADG',
           time: [
             {start_time: 114, end_time: 116, room: 'H05-0103'},
             {start_time: 417, end_time: 419, room: 'H05-0103'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: 'Benjamin Dieckman Willson',
           category: '기초필수'
@@ -205,14 +223,14 @@ describe('Controller: CreateCtrl', function () {
       case '10301':
         result = {
           class_no: '10301',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADG',
           time: [
             {start_time: 206, end_time: 208, room: 'H05-0103'},
             {start_time: 403, end_time: 405, room: 'H05-0103'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: '박영선',
           category: '기초필수'
@@ -222,14 +240,14 @@ describe('Controller: CreateCtrl', function () {
       case '10302':
         result = {
           class_no: '10302',
-          course_no: 'CSE406',
+          course_no: 'GEN253',
           name: '미분적분학2',
           major: 'H3HADG',
           time: [
             {start_time: 114, end_time: 116, room: 'H05-0102'},
             {start_time: 417, end_time: 419, room: 'H05-0102'}
           ],
-          score: 3.00,
+          credit: 3.00,
           grade: 1,
           instructor: '황신철',
           category: '기초필수'
@@ -237,21 +255,22 @@ describe('Controller: CreateCtrl', function () {
         break;
       }
 
-      success(result);
-      return $q.when(result);
+      $timeout(function () {
+        success(result);
+      }, 0);
+      return result;
     }
-
-    return this;
   };
 
   var storedContext = {
     classCart: [
       {
         placement_required: true,
-        course_no: 'CSE406',
+        course_no: 'GEN253',
         classes: [
-          {class_no: '10406', fixed: false},
-          {class_no: '10407', fixed: true}
+          {class_no: '13056', fixed: false},
+          {class_no: '13057', fixed: true},
+          {class_no: '10455', fixed: false}
         ]
       }
     ],
@@ -345,28 +364,32 @@ describe('Controller: CreateCtrl', function () {
     var expectedClassCart = [
       {
         placement_required: true,
-        course_no: 'CSE406',
-        name: '소프트웨어공학',
+        course_no: 'GEN253',
+        name: '미분적분학2',
         majors: [
           {
             code: 'H3HADD',
             name: '컴퓨터공학부',
-            grade: 3,
+            grade: 1,
             credit: 3.00,
             classes: [
-              {instructor: '유민수', class_no: '10406', fixed: false},
-              {instructor: '유인경', class_no: '10407', fixed: true}
+              {instructor: null, class_no: '13056', fixed: false},
+              {instructor: '신교일', class_no: '13057', fixed: true},
+              {instructor: '평인수', class_no: '10455', fixed: false}
             ]
           }
         ]
       }
     ];
+
+    $timeout.flush();
+
     expect(scope.classCart).toEqualData(expectedClassCart);
     expect(scope.excludedTime).toEqualData(storedContext.excludedTime);
     expect(scope.options).toEqualData(storedContext.options);
   });
 
-  it('should store context data', function () {
+  it('should delete a class entity from class cart and store the class cart into cookie', function () {
     var scopeClassCart = [
       {
         placement_required: true,
@@ -404,12 +427,47 @@ describe('Controller: CreateCtrl', function () {
       }
     ];
 
-    var expectedClassCart = [
+    var expectedScopeClassCart = [
+      {
+        placement_required: true,
+        course_no: 'CSE406',
+        name: '소프트웨어공학',
+        majors: [
+          {
+            code: 'H3HADD',
+            name: '컴퓨터공학부',
+            grade: 3,
+            credit: 3.00,
+            classes: [
+              {instructor: '유인경', class_no: '10407', fixed: true}
+            ]
+          }
+        ]
+      },
+      {
+        placement_required: true,
+        course_no: 'ITE316',
+        name: '데이터베이스시스템',
+        majors: [
+          {
+            code: 'H3HADD',
+            name: '컴퓨터공학부',
+            grade: 3,
+            credit: 3.00,
+            classes: [
+              {instructor: '김상욱', class_no: '10415', fixed: true},
+              {instructor: '김영훈', class_no: '10414', fixed: false}
+            ]
+          }
+        ]
+      }
+    ];
+
+    var expectedStoredClassCart = [
       {
         placement_required: true,
         course_no: 'CSE406',
         classes: [
-          {class_no: '10406', fixed: false},
           {class_no: '10407', fixed: true}
         ]
       },
@@ -426,11 +484,11 @@ describe('Controller: CreateCtrl', function () {
     spyOn(jQuery, 'cookie').andCallThrough();
 
     scope.classCart = scopeClassCart;
+    scope.deleteClass('10406');
 
-    $timeout.flush();
-
+    expect(scope.classCart).toBeEqual(expectedScopeClassCart);
     expect(jQuery.cookie)
-    .toHaveBeenCalledWith('context-create', expectedClassCart);
+    .toHaveBeenCalledWith('context-create', expectedStoredClassCart);
   });
 
   it('should load the list of classes from the server', function () {
