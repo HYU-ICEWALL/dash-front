@@ -23,6 +23,10 @@ angular.module('dashApp')
   return {
     VIEW: {
       DASH: {
+        CREATE: {
+          urlFor: getUrlFor('views/dash/create/')
+        },
+
         TIMETABLES: {
           LEFT_COLUMN: {
             urlFor: getUrlFor('views/dash/timetables/left-column/')

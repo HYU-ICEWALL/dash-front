@@ -18,6 +18,7 @@ files = [
   'bower_components/angular-ui-router/release/angular-ui-router.min.js',
   'bower_components/perfect-scrollbar/src/jquery.mousewheel.js',
   'bower_components/perfect-scrollbar/src/perfect-scrollbar.js',
+  'bower_components/jquery.cookie/jquery.cookie.js',
   'scripts/*.js',
   'scripts/**/*.js',
   'views/**/*.html',

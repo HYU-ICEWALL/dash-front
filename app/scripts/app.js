@@ -45,5 +45,15 @@ angular.module('dashApp', [
           url: '/:ttId',
           templateUrl: StringResource.VIEW.DASH.TIMETABLES.urlFor('timetable_detail.html'),
           controller: 'TTviewCtrl'
-        });
+        })
+      .state('dash.create', {
+        url: '/create',
+        templateUrl: StringResource.VIEW.DASH.CREATE.urlFor('index.html'),
+        resolve: {
+          storedContext: function () {
+            return $.cookie('context-create');
+          }
+        },
+        controller: 'CreateCtrl'
+      });
 });
