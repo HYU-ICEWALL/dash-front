@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('dashApp')
-.controller('CreateCtrl', ['$scope', '$q', 'storedContext', 'MajorInfo', 'Class',
-function ($scope, $q, storedContext, MajorInfo, Class) {
+.controller('CreateCtrl',
+['$scope', '$q', 'StringResource', 'Utils',
+'storedContext', 'MajorInfo', 'Class',
+function ($scope, $q, StringResource, Utils, storedContext, MajorInfo, Class) {
   var addClassToClassCart = function (classObj, classCart) {
     var course_no = classObj.course_no;
     var major = classObj.major;
@@ -113,8 +115,9 @@ function ($scope, $q, storedContext, MajorInfo, Class) {
   };
 
   var storedClassCart = angular.copy(storedContext.classCart);
+  var classCart = convertStoredClassCart(storedClassCart);
 
-  $scope.classCart = convertStoredClassCart(storedClassCart);
+  $scope.classCart = classCart;
   $scope.excludedTime = storedContext.excludedTime;
   $scope.options = storedContext.options;
 
@@ -181,6 +184,79 @@ function ($scope, $q, storedContext, MajorInfo, Class) {
     return newClasses;
   };
 
+  var ClassNotFoundError = function (classNo) {
+    this.value = classNo;
+    this.message = StringResource.ERROR.CREATE.CLASS_NOT_FOUND.prefix;
+    this.toString = function () {
+      return this.message + this.value;
+    };
+  };
+  Utils.extendErrorType(ClassNotFoundError, RangeError);
+
+  var deleteClass = function (classNo) {
+    var deleteClassFromClassCart = function (classNo) {
+      var hasFoundClassEntity = false;
+      angular.forEach(classCart, function (cartEntity, cartIndex) {
+        angular.forEach(cartEntity.majors, function (majorEntity, majorIndex) {
+          angular.forEach(majorEntity.classes, function (classEntity, classIndex) {
+            if (classEntity.class_no === classNo) {
+              majorEntity.classes.splice(classIndex, 1);
+              hasFoundClassEntity = true;
+              return false;
+            }
+          });
+
+          if (hasFoundClassEntity) {
+            if (majorEntity.classes.length === 0) {
+              cartEntity.majors.splice(majorIndex, 1);
+            }
+
+            return false;
+          }
+        });
+
+        if (hasFoundClassEntity) {
+          if (cartEntity.majors.length === 0) {
+            classCart.splice(cartIndex, 1);
+          }
+
+          return false;
+        }
+      });
+
+      if (!hasFoundClassEntity) {
+        throw new ClassNotFoundError(classNo);
+      }
+    };
+
+    var deleteClassFromStoredClassCart = function (classNo) {
+      var hasFoundClassEntity = false;
+
+      angular.forEach(storedClassCart, function (cartEntity, cartIndex) {
+        angular.forEach(cartEntity.classes, function (classEntity, classIndex) {
+          if (classEntity.class_no === classNo) {
+            cartEntity.classes.splice(classIndex, 1);
+            hasFoundClassEntity = true;
+            return false;
+          }
+        });
+
+        if (hasFoundClassEntity) {
+          if (cartEntity.classes.length === 0) {
+            storedClassCart.splice(cartIndex, 1);
+          }
+
+          return false;
+        }
+      });
+    };
+
+    deleteClassFromClassCart(classNo);
+    deleteClassFromStoredClassCart(classNo);
+    storedContext.classCart = storedClassCart;
+    jQuery.cookie('context-create', storedContext);
+  };
+
   $scope.search = function () {
     var classes = Class.query(
       {name: $scope.keyword},
@@ -189,4 +265,6 @@ function ($scope, $q, storedContext, MajorInfo, Class) {
       }
     );
   };
+
+  $scope.deleteClass = deleteClass;
 }]);

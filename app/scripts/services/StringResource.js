@@ -101,6 +101,12 @@ angular.module('dashApp')
         }
       },
 
+      CREATE: {
+        CLASS_NOT_FOUND: {
+          prefix: 'failed to find the class with class number '
+        }
+      },
+
       TIMETABLE: {
         UPDATETIMETABLEINFO: {
           prefix: 'failed to get timetable information: ',

@@ -140,6 +140,24 @@ angular.module('dashApp')
      */
     reasonHttpError: function (code) {
       return UI.HTTP_ERROR.PREFIX + code + UI.HTTP_ERROR.SUFFIX;
+    },
+
+    /**
+     * @ngdoc method
+     * @methodOf dashApp.factory:Utils
+     * @name dashApp.factory:Utils#extendErrorType
+     * @description 주어진 자식 에러 타입이 부모 에러 타입을 확장하도록 만드는 메서드.
+     *
+     * @param  {function} ChildType 자식 에러 타입.
+     * @param  {function} ParentType 부모 에러 타입.
+     *
+     * @return {function} 자식 에러 타입.
+     */
+    extendErrorType: function (ChildType, ParentType) {
+      ChildType.prototype = new ParentType();
+      ChildType.prototype.constructor = ChildType;
+
+      return ChildType;
     }
   };
 }]);

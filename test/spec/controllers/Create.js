@@ -390,73 +390,20 @@ describe('Controller: CreateCtrl', function () {
   });
 
   it('should delete a class entity from class cart and store the class cart into cookie', function () {
-    var scopeClassCart = [
-      {
-        placement_required: true,
-        course_no: 'CSE406',
-        name: '소프트웨어공학',
-        majors: [
-          {
-            code: 'H3HADD',
-            name: '컴퓨터공학부',
-            grade: 3,
-            credit: 3.00,
-            classes: [
-              {instructor: '유민수', class_no: '10406', fixed: false},
-              {instructor: '유인경', class_no: '10407', fixed: true}
-            ]
-          }
-        ]
-      },
-      {
-        placement_required: true,
-        course_no: 'ITE316',
-        name: '데이터베이스시스템',
-        majors: [
-          {
-            code: 'H3HADD',
-            name: '컴퓨터공학부',
-            grade: 3,
-            credit: 3.00,
-            classes: [
-              {instructor: '김상욱', class_no: '10415', fixed: true},
-              {instructor: '김영훈', class_no: '10414', fixed: false}
-            ]
-          }
-        ]
-      }
-    ];
-
     var expectedScopeClassCart = [
       {
         placement_required: true,
-        course_no: 'CSE406',
-        name: '소프트웨어공학',
+        course_no: 'GEN253',
+        name: '미분적분학2',
         majors: [
           {
             code: 'H3HADD',
             name: '컴퓨터공학부',
-            grade: 3,
+            grade: 1,
             credit: 3.00,
             classes: [
-              {instructor: '유인경', class_no: '10407', fixed: true}
-            ]
-          }
-        ]
-      },
-      {
-        placement_required: true,
-        course_no: 'ITE316',
-        name: '데이터베이스시스템',
-        majors: [
-          {
-            code: 'H3HADD',
-            name: '컴퓨터공학부',
-            grade: 3,
-            credit: 3.00,
-            classes: [
-              {instructor: '김상욱', class_no: '10415', fixed: true},
-              {instructor: '김영훈', class_no: '10414', fixed: false}
+              {instructor: '신교일', class_no: '13057', fixed: true},
+              {instructor: '평인수', class_no: '10455', fixed: false}
             ]
           }
         ]
@@ -466,29 +413,28 @@ describe('Controller: CreateCtrl', function () {
     var expectedStoredClassCart = [
       {
         placement_required: true,
-        course_no: 'CSE406',
+        course_no: 'GEN253',
         classes: [
-          {class_no: '10407', fixed: true}
-        ]
-      },
-      {
-        placement_required: true,
-        course_no: 'ITE316',
-        classes: [
-          {class_no: '10415', fixed: true},
-          {class_no: '10414', fixed: false}
+          {class_no: '13057', fixed: true},
+          {class_no: '10455', fixed: false}
         ]
       }
     ];
 
+    var expectedStoredContext = {
+      classCart: expectedStoredClassCart,
+      excludedTime: [109, 110, 209, 210, 309, 310, 409, 410],
+      options: undefined
+    };
+
     spyOn(jQuery, 'cookie').andCallThrough();
+    $timeout.flush();
 
-    scope.classCart = scopeClassCart;
-    scope.deleteClass('10406');
+    scope.deleteClass('13056');
 
-    expect(scope.classCart).toBeEqual(expectedScopeClassCart);
+    expect(scope.classCart).toEqualData(expectedScopeClassCart);
     expect(jQuery.cookie)
-    .toHaveBeenCalledWith('context-create', expectedStoredClassCart);
+    .toHaveBeenCalledWith('context-create', expectedStoredContext);
   });
 
   it('should load the list of classes from the server', function () {
