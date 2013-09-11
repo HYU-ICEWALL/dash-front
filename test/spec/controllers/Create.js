@@ -5,7 +5,7 @@ describe('Controller: CreateCtrl', function () {
   // load the controller's module
   beforeEach(module('dashApp'));
 
-  var $q, $timeout;
+  var $controller, $q, $timeout;
   var CreateCtrl,
     scope;
 
@@ -348,7 +348,8 @@ describe('Controller: CreateCtrl', function () {
   ];
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$q_, _$timeout_) {
+  beforeEach(inject(function (_$controller_, $rootScope, _$q_, _$timeout_) {
+    $controller = _$controller_;
     $q = _$q_;
     $timeout = _$timeout_;
     scope = $rootScope.$new();
@@ -359,6 +360,32 @@ describe('Controller: CreateCtrl', function () {
       Class: Class
     });
   }));
+
+  var testClassCart = function (storedContext, testFunc, expectedScopeClassCart, expectedStoredClassCart) {
+    return function () {
+      CreateCtrl = $controller('CreateCtrl', {
+        $scope: scope,
+        storedContext: angular.copy(storedContext),
+        MajorInfo: MajorInfo,
+        Class: Class
+      });
+
+      spyOn(jQuery, 'cookie').andCallThrough();
+      $timeout.flush();
+
+      testFunc();
+
+      var expectedStoredContext = {
+        classCart: expectedStoredClassCart,
+        excludedTime: storedContext.excludedTime,
+        options: storedContext.options
+      };
+
+      expect(scope.classCart).toEqualData(expectedScopeClassCart);
+      expect(jQuery.cookie)
+      .toHaveBeenCalledWith('context-create', expectedStoredContext);
+    };
+  };
 
   it('should load stored context data', function () {
     var expectedClassCart = [
@@ -389,53 +416,92 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.options).toEqualData(storedContext.options);
   });
 
-  it('should delete a class entity from class cart and store the class cart into cookie', function () {
-    var expectedScopeClassCart = [
+  it('should delete a class entity from class cart ' +
+    'and store the class cart into cookie', testClassCart(
+      storedContext,
+      function () {
+        scope.deleteClass('13056');
+      },
+      [
+        {
+          placement_required: true,
+          course_no: 'GEN253',
+          name: '미분적분학2',
+          majors: [
+            {
+              code: 'H3HADD',
+              name: '컴퓨터공학부',
+              grade: 1,
+              credit: 3.00,
+              classes: [
+                {instructor: '신교일', class_no: '13057', fixed: true},
+                {instructor: '평인수', class_no: '10455', fixed: false}
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        {
+          placement_required: true,
+          course_no: 'GEN253',
+          classes: [
+            {class_no: '13057', fixed: true},
+            {class_no: '10455', fixed: false}
+          ]
+        }
+      ]
+    )
+  );
+
+  it('should delete corresponding entity as well as a class entity ' +
+    'from class cart and store the class cart into cookie', testClassCart(
       {
-        placement_required: true,
-        course_no: 'GEN253',
-        name: '미분적분학2',
-        majors: [
+        classCart: [
           {
-            code: 'H3HADD',
-            name: '컴퓨터공학부',
-            grade: 1,
-            credit: 3.00,
+            placement_required: true,
+            course_no: 'GEN253',
             classes: [
-              {instructor: '신교일', class_no: '13057', fixed: true},
-              {instructor: '평인수', class_no: '10455', fixed: false}
+              {class_no: '13056', fixed: false},
+              {class_no: '10301', fixed: true}
             ]
           }
-        ]
-      }
-    ];
-
-    var expectedStoredClassCart = [
-      {
-        placement_required: true,
-        course_no: 'GEN253',
-        classes: [
-          {class_no: '13057', fixed: true},
-          {class_no: '10455', fixed: false}
-        ]
-      }
-    ];
-
-    var expectedStoredContext = {
-      classCart: expectedStoredClassCart,
-      excludedTime: [109, 110, 209, 210, 309, 310, 409, 410],
-      options: undefined
-    };
-
-    spyOn(jQuery, 'cookie').andCallThrough();
-    $timeout.flush();
-
-    scope.deleteClass('13056');
-
-    expect(scope.classCart).toEqualData(expectedScopeClassCart);
-    expect(jQuery.cookie)
-    .toHaveBeenCalledWith('context-create', expectedStoredContext);
-  });
+        ],
+        excludedTime: [109, 110, 209, 210, 309, 310, 409, 410],
+        options: undefined
+      },
+      function () {
+        scope.deleteClass('13056');
+      },
+      [
+        {
+          placement_required: true,
+          course_no: 'GEN253',
+          name: '미분적분학2',
+          majors: [
+            {
+              code: 'H3HADG',
+              name: '융합전자공학부',
+              grade: 1,
+              credit: 3.00,
+              classes: [
+                {instructor: '박영선', class_no: '10301', fixed: true}
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        {
+          placement_required: true,
+          course_no: 'GEN253',
+          classes: [
+            {class_no: '10301', fixed: true}
+          ]
+        }
+      ]
+    )
+  );
 
   it('should load the list of classes from the server', function () {
     expect(scope.classes).toBe(undefined);
