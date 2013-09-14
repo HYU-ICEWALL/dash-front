@@ -455,7 +455,8 @@ describe('Controller: CreateCtrl', function () {
   );
 
   it('should delete corresponding entity as well as a class entity ' +
-    'from class cart and store the class cart into cookie', testClassCart(
+    'from class cart and store the class cart into cookie ' +
+    'if the class entity is the only one of classes of a major', testClassCart(
       {
         classCart: [
           {
@@ -500,6 +501,30 @@ describe('Controller: CreateCtrl', function () {
           ]
         }
       ]
+    )
+  );
+
+  it('should delete corresponding entity as well as a class entity ' +
+    'from class cart and store the class cart into cookie ' +
+    'if the class entity is the only one of classes of a course', testClassCart(
+      {
+        classCart: [
+          {
+            placement_required: true,
+            course_no: 'GEN253',
+            classes: [
+              {class_no: '13056', fixed: false},
+            ]
+          }
+        ],
+        excludedTime: [109, 110, 209, 210, 309, 310, 409, 410],
+        options: undefined
+      },
+      function () {
+        scope.deleteClass('13056');
+      },
+      [],
+      []
     )
   );
 

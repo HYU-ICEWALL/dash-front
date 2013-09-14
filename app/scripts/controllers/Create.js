@@ -1,3 +1,4 @@
+/* jshint -W106 */
 'use strict';
 
 angular.module('dashApp')
@@ -193,68 +194,204 @@ function ($scope, $q, StringResource, Utils, storedContext, MajorInfo, Class) {
   };
   Utils.extendErrorType(ClassNotFoundError, RangeError);
 
-  var deleteClass = function (classNo) {
-    var deleteClassFromClassCart = function (classNo) {
-      var hasFoundClassEntity = false;
-      angular.forEach(classCart, function (cartEntity, cartIndex) {
-        angular.forEach(cartEntity.majors, function (majorEntity, majorIndex) {
-          angular.forEach(majorEntity.classes, function (classEntity, classIndex) {
-            if (classEntity.class_no === classNo) {
-              majorEntity.classes.splice(classIndex, 1);
-              hasFoundClassEntity = true;
-              return false;
-            }
-          });
+  var tidyArray = function (arr, taskFn, checkFn) {
+    taskFn.apply(arr);
 
-          if (hasFoundClassEntity) {
-            if (majorEntity.classes.length === 0) {
-              cartEntity.majors.splice(majorIndex, 1);
-            }
-
-            return false;
-          }
-        });
-
-        if (hasFoundClassEntity) {
-          if (cartEntity.majors.length === 0) {
-            classCart.splice(cartIndex, 1);
-          }
-
-          return false;
-        }
-      });
-
-      if (!hasFoundClassEntity) {
-        throw new ClassNotFoundError(classNo);
+    var i = 0, len = arr.length;
+    while (i < len) {
+      if (checkFn.apply(arr[i])) {
+        ++i;
+        continue;
       }
+
+      arr[i] = null;
+      arr.splice(i, 1);
+      --len;
+    }
+  };
+
+  var isPropertyNotEmptyArray = function (property) {
+    return function () {
+      var arr = this[property];
+      return arr && angular.isArray(arr) && arr.length > 0;
     };
+  };
 
-    var deleteClassFromStoredClassCart = function (classNo) {
-      var hasFoundClassEntity = false;
-
-      angular.forEach(storedClassCart, function (cartEntity, cartIndex) {
-        angular.forEach(cartEntity.classes, function (classEntity, classIndex) {
-          if (classEntity.class_no === classNo) {
-            cartEntity.classes.splice(classIndex, 1);
-            hasFoundClassEntity = true;
-            return false;
-          }
-        });
-
-        if (hasFoundClassEntity) {
-          if (cartEntity.classes.length === 0) {
-            storedClassCart.splice(cartIndex, 1);
-          }
-
-          return false;
-        }
-      });
+  var eachThis = function (callback) {
+    return function () {
+      jQuery.each(this, callback);
     };
+  };
 
-    deleteClassFromClassCart(classNo);
-    deleteClassFromStoredClassCart(classNo);
+  var saveStoredClassCart = function () {
     storedContext.classCart = storedClassCart;
     jQuery.cookie('context-create', storedContext);
+  };
+
+  var deleteClassFromClasses = function (index, classes) {
+    classes[index] = null;
+    classes.splice(index, 1);
+  };
+
+  var deleteClassFromClassesWithClassNo = function (classNo, classes) {
+    var hasFoundClassEntity = false;
+
+    jQuery.each(classes, function (classIndex, classEntity) {
+      if (classEntity.class_no === classNo) {
+        deleteClassFromClasses(classIndex, classes);
+        hasFoundClassEntity = true;
+        return false;
+      }
+    });
+
+    return hasFoundClassEntity;
+  };
+
+  var deleteClass = function (classNo) {
+    var hasFoundClassEntity = false;
+    tidyArray(classCart, eachThis(function (cartIndex, cartEntity) {
+      tidyArray(cartEntity.majors, eachThis(
+        function (majorIndex, majorEntity) {
+          var classes = majorEntity.classes;
+          hasFoundClassEntity =
+              deleteClassFromClassesWithClassNo(classNo, classes);
+
+          return !hasFoundClassEntity;
+        }
+      ), isPropertyNotEmptyArray('classes'));
+
+      return !hasFoundClassEntity;
+    }), isPropertyNotEmptyArray('majors'));
+
+    if (!hasFoundClassEntity) {
+      throw new ClassNotFoundError(classNo);
+    }
+
+    tidyArray(storedClassCart, eachThis(function (cartIndex, cartEntity) {
+      var classes = cartEntity.classes;
+      var hasFoundClassEntity =
+          deleteClassFromClassesWithClassNo(classNo, classes);
+
+      return !hasFoundClassEntity;
+    }), isPropertyNotEmptyArray('classes'));
+
+    saveStoredClassCart();
+  };
+
+  var MajorInCourseNotFoundError = function (majorCode, courseNo) {
+    this.value = {majorCode: majorCode, courseNo: courseNo};
+    this.message =
+        StringResource.ERROR.CREATE.MAJOR_IN_COURSE_NOT_FOUND.prefix;
+    this.toString = function () {
+      return this.message + angular.toJson(this.value);
+    };
+  };
+  Utils.extendErrorType(MajorInCourseNotFoundError, RangeError);
+
+  var CourseNotFoundError = function (courseNo) {
+    this.value = courseNo;
+    this.message =
+        StringResource.ERROR.CREATE.COURSE_NOT_FOUND.prefix;
+    this.toString = function () {
+      return this.message + this.value;
+    };
+  };
+  Utils.extendErrorType(MajorInCourseNotFoundError, RangeError);
+
+  var deleteMajorFromMajors = function (index, majors) {
+    var classes = majors[index].classes;
+    var classesToRemove = [];
+
+    for (var i = 0, len = classes.length; i < len; ++i) {
+      classesToRemove.push(classes[0].class_no);
+      classes[0] = null;
+      classes.splice(0, 1);
+    }
+
+    majors.splice(index, 1);
+
+    return classesToRemove;
+  };
+
+  var deleteMajorInCourse = function (majorCode, courseNo) {
+    var hasFoundMajorEntity = false;
+    var classesToRemove;
+    tidyArray(classCart, eachThis(function (cartIndex, cartEntity) {
+      if (cartEntity.course_no !== courseNo) {
+        return true;
+      }
+
+      var majors = cartEntity.majors;
+      jQuery.each(majors, function (majorIndex, majorEntity) {
+        if (majorEntity.code !== majorCode) {
+          return true;
+        }
+
+        classesToRemove = deleteMajorFromMajors(majorIndex, majors);
+        hasFoundMajorEntity = true;
+        return false;
+      });
+
+      return !hasFoundMajorEntity;
+    }), isPropertyNotEmptyArray('majors'));
+
+    if (!hasFoundMajorEntity) {
+      throw new MajorInCourseNotFoundError(majorCode, courseNo);
+    }
+
+    tidyArray(storedClassCart, eachThis(function (cartIndex, cartEntity) {
+      if (cartEntity.course_no !== courseNo) {
+        return true;
+      }
+
+      var classes = cartEntity.classes;
+      jQuery.each(classesToRemove, function (classIndex, classNo) {
+        deleteClassFromClassesWithClassNo(classNo, classes);
+      });
+
+      return false;
+    }), isPropertyNotEmptyArray('classes'));
+
+    saveStoredClassCart();
+  };
+
+  var deleteCourse = function (courseNo) {
+    var hasFoundCourseEntity = false;
+
+    jQuery.each(classCart, function (cartIndex, cartEntity) {
+      if (cartEntity.course_no !== courseNo) {
+        return true;
+      }
+
+      var majors = cartEntity.majors;
+
+      for (var i = 0, len = majors.length; i < len; ++i) {
+        deleteMajorFromMajors(0, majors);
+        majors.splice(0, 1);
+      }
+
+      hasFoundCourseEntity = true;
+      return false;
+    });
+
+    if (!hasFoundCourseEntity) {
+      throw new CourseNotFoundError(courseNo);
+    }
+
+    tidyArray(storedClassCart, eachThis(function (cartIndex, cartEntity) {
+      if (cartEntity.course_no !== courseNo) {
+        return true;
+      }
+
+      var classes = cartEntity.classes;
+      for (var i = 0, len = classes.length; i < len; ++i) {
+        deleteClassFromClasses(0, classes);
+      }
+
+      return false;
+    }), isPropertyNotEmptyArray('classes'));
+
+    saveStoredClassCart();
   };
 
   $scope.search = function () {
@@ -267,4 +404,6 @@ function ($scope, $q, StringResource, Utils, storedContext, MajorInfo, Class) {
   };
 
   $scope.deleteClass = deleteClass;
+  $scope.deleteMajorInCourse = deleteMajorInCourse;
+  $scope.deleteCourse = deleteCourse;
 }]);
