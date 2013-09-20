@@ -223,9 +223,9 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false},
-          {class_no: '13057', fixed: true},
-          {class_no: '10455', fixed: false}
+          {class_no: '13056'},
+          {class_no: '13057'},
+          {class_no: '10455'}
         ]
       }
     ];
@@ -248,7 +248,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -257,7 +256,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -266,7 +264,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '평인수',
                 class_no: '10455',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0203'},
                   {start_time: 514, end_time: 516, room: 'H05-0203'}
@@ -298,7 +295,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -307,7 +303,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -316,7 +311,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '평인수',
                 class_no: '10455',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0203'},
                   {start_time: 514, end_time: 516, room: 'H05-0203'}
@@ -335,9 +329,9 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false},
-          {class_no: '13057', fixed: true},
-          {class_no: '10455', fixed: false}
+          {class_no: '13056'},
+          {class_no: '13057'},
+          {class_no: '10455'}
         ]
       }
     ];
@@ -364,7 +358,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -373,7 +366,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -390,9 +382,9 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false},
-          {class_no: '13057', fixed: true},
-          {class_no: '10455', fixed: false}
+          {class_no: '13056'},
+          {class_no: '13057'},
+          {class_no: '10455'}
         ]
       }
     ];
@@ -412,7 +404,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -421,7 +412,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -430,7 +420,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '평인수',
                 class_no: '10455',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0203'},
                   {start_time: 514, end_time: 516, room: 'H05-0203'}
@@ -471,7 +460,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -480,7 +468,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -497,9 +484,9 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false},
-          {class_no: '13057', fixed: true},
-          {class_no: '10301', fixed: false}
+          {class_no: '13056'},
+          {class_no: '13057'},
+          {class_no: '10301'}
         ]
       }
     ];
@@ -519,7 +506,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -528,7 +514,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -545,7 +530,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '박영선',
                 class_no: '10301',
-                fixed: false,
                 time: [
                   {start_time: 206, end_time: 208, room: 'H05-0103'},
                   {start_time: 403, end_time: 405, room: 'H05-0103'}
@@ -578,7 +562,7 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '10455', fixed: false}
+          {class_no: '10455'}
         ]
       }
     ];
@@ -598,7 +582,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '평인수',
                 class_no: '10455',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0203'},
                   {start_time: 514, end_time: 516, room: 'H05-0203'}
@@ -639,7 +622,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -648,7 +630,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -665,7 +646,7 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13057', fixed: true}
+          {class_no: '13057'}
         ]
       }
     ];
@@ -685,7 +666,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '신교일',
                 class_no: '13057',
-                fixed: true,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0202'},
                   {start_time: 514, end_time: 516, room: 'H05-0202'}
@@ -723,7 +703,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -740,7 +719,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '박영선',
                 class_no: '10301',
-                fixed: false,
                 time: [
                   {start_time: 206, end_time: 208, room: 'H05-0103'},
                   {start_time: 403, end_time: 405, room: 'H05-0103'}
@@ -757,7 +735,7 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false}
+          {class_no: '13056'}
         ]
       }
     ];
@@ -777,7 +755,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -815,7 +792,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -857,7 +833,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -874,7 +849,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '박영선',
                 class_no: '10301',
-                fixed: false,
                 time: [
                   {start_time: 206, end_time: 208, room: 'H05-0103'},
                   {start_time: 403, end_time: 405, room: 'H05-0103'}
@@ -891,7 +865,7 @@ describe('Service: ClassCart', function () {
         placement_required: true,
         course_no: 'GEN253',
         classes: [
-          {class_no: '13056', fixed: false}
+          {class_no: '13056'}
         ]
       }
     ];
@@ -911,7 +885,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -949,7 +922,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -989,7 +961,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: null,
                 class_no: '13056',
-                fixed: false,
                 time: [
                   {start_time: 211, end_time: 213, room: 'H05-0103'},
                   {start_time: 514, end_time: 516, room: 'H05-0103'}
@@ -1006,7 +977,6 @@ describe('Service: ClassCart', function () {
               {
                 instructor: '박영선',
                 class_no: '10301',
-                fixed: false,
                 time: [
                   {start_time: 206, end_time: 208, room: 'H05-0103'},
                   {start_time: 403, end_time: 405, room: 'H05-0103'}

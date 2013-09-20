@@ -23,16 +23,9 @@ angular.module('dashApp')
         var hasFoundCartEntity = false;
 
         var addToClasses = function (classObj, classes) {
-          var fixed;
-          if (typeof classObj.fixed !== 'undefined') {
-            fixed = classObj.fixed;
-          } else {
-            fixed = false;
-          }
           var classEntity = {
             instructor: classObj.instructor,
             class_no: classObj.class_no,
-            fixed: fixed,
             time: classObj.time
           };
           classes.push(classEntity);
@@ -108,15 +101,8 @@ angular.module('dashApp')
         var hasFoundCartEntity = false;
 
         var addToClasses = function (classObj, classes) {
-          var fixed;
-          if (typeof classObj.fixed !== 'undefined') {
-            fixed = classObj.fixed;
-          } else {
-            fixed = false;
-          }
           var classEntity = {
-            class_no: classObj.class_no,
-            fixed: fixed
+            class_no: classObj.class_no
           };
           classes.push(classEntity);
         };
@@ -217,7 +203,6 @@ angular.module('dashApp')
               var subsetOfClass = {
                 instructor: classObj.instructor,
                 class_no: classEntity.class_no,
-                fixed: classEntity.fixed,
                 time: classObj.time
               };
               gradesMapEntity.majorEntity.classes.push(subsetOfClass);
@@ -243,8 +228,7 @@ angular.module('dashApp')
           jQuery.each(cartEntity.majors, function (majorIndex, majorEntity) {
             jQuery.each(majorEntity.classes, function (classIndex, classEntity) {
               var newClassEntity = {
-                class_no: classEntity.class_no,
-                fixed: classEntity.fixed
+                class_no: classEntity.class_no
               };
               newCourseEntity.classes.push(newClassEntity);
             });
