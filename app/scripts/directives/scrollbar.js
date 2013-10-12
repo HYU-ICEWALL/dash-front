@@ -2,29 +2,22 @@
 
 angular.module('dashApp')
 .directive('scrollbar', function () {
+  var postLink = function (scope, element) {
+    element = jQuery(element);
+
+    scope.$apply(function () {
+      element.perfectScrollbar();
+    });
+
+    scope.$on('update', function () {
+      element.perfectScrollbar('update');
+    });
+  };
+
   return {
     template: '<div ng-transclude></div>',
     transclude: true,
     restrict: 'EA',
-    link: function postLink(scope, element, attrs) {
-      var element = jQuery(element);
-
-      element.perfectScrollbar();
-      element.bind('update', function () {
-        element.perfectScrollbar('update');
-      });
-    }
+    link: postLink
   };
-})
-.directive('repeatAndUpdate', ['$timeout', function ($timeout) {
-  return {
-    restrict: 'A',
-    link: function postLink(scope, element, attrs) {
-      if (scope.$last) {
-        $timeout(function () {
-          element.trigger('update');
-        });
-      }
-    }
-  };
-}]);
+});
